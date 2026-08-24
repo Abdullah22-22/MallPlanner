@@ -1,0 +1,49 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+dependency-reduced-pom.xml
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Eclipse / VS Code
+.classpath
+.project
+.settings/
+.vscode/
+bin/
+
+# Java
+*.class
+*.jar
+*.war
+hs_err_pid*
+replay_pid*
+
+# Logs
+*.log
+logs/
+
+# Reports (JaCoCo, SonarQube, Surefire)
+.scannerwork/
+.sonar/
+site/
+
+# Database credentials — never commit these
+*.env
+.env
+config.properties
+db.properties
+application-local.properties
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
