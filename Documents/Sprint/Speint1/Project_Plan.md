@@ -5,8 +5,8 @@
 **Team:**
 
 - Member 1 : Abdullah Al-Tameemi.
-- Member 2
-- Member 3
+- Member 2 : Farha Mim
+- Member 3 : Sarujan Mathyruban
 
 **Scrum Master for Sprint 1:** Member 1
 
@@ -119,9 +119,11 @@ We plan approximately five or six cards in each sprint. With three team members,
 
 We are three, so everyone does more than one thing.
 
-- Member 1 — Scrum Master, calculation classes
-- Member 2 — database classes, unit tests, coverage
-- Member 3 — console and JavaFX screens
+- Member 1 — Scrum Master, calculation classes (Abdullah Al-Tameemi).
+- Member 2 — database classes, unit tests, coverage (Farha Mim).
+- Member 3 — console and JavaFX screens (Sarujan Mathyruban).
+
+The roles may still change in the meeting on 31.8.
 
 Jenkins and Docker we do together, Member 1 and Member 3. Nobody has tried this before, so we don't want one person alone in it.
 
@@ -223,4 +225,4 @@ We have two meetings a week — one on Monday, and another one that is flexible,
 
 ## 9. Submission
 
-Member 1 submits this plan.
+Member 1 submits this plan (Abdullah Al-Tameemi).
