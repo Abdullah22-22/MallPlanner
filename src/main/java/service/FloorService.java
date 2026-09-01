@@ -1,5 +1,8 @@
 package service;
 
+import exception.InvalidInputException;
+
+
 public class FloorService {
 
     // TODO: temporary. Delete when model/Floor.java is ready.
@@ -15,13 +18,13 @@ public class FloorService {
 
     public double freeSpace(Floor floor) {
         if (floor.area <= 0) {
-            throw new IllegalArgumentException("error.area.zero");
+            throw new InvalidInputException("error.area.zero");
         }
         if (floor.services < 0) {
-            throw new IllegalArgumentException("error.services.negative");
+            throw new InvalidInputException("error.services.negative");
         }
         if (floor.services > floor.area) {
-            throw new IllegalArgumentException("error.services.big");
+            throw new InvalidInputException("error.services.big");
         }
         return floor.area - floor.services;
     }
