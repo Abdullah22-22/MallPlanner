@@ -1,6 +1,7 @@
 package service;
 
 import exception.InvalidInputException;
+import model.Mall;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,31 +13,31 @@ class MallServiceTest {
 
     @Test
     void normalCase() {
-        MallService.Mall mall = new MallService.Mall("City Mall", 3000, 3);
-        assertEquals(1000, service.areaPerFloor(mall));
+        Mall mall = new Mall("City Mall", 3000);
+        assertEquals(1000, service.areaPerFloor(mall, 3));
     }
 
     @Test
     void emptyName() {
-        MallService.Mall mall = new MallService.Mall("  ", 3000, 3);
-        InvalidInputException e = assertThrows(
-                InvalidInputException.class, () -> service.areaPerFloor(mall));
+        Mall mall = new Mall("  ", 3000);
+        InvalidInputException e = assertThrows(InvalidInputException.class,
+                () -> service.areaPerFloor(mall, 3));
         assertEquals("error.name.empty", e.getMessage());
     }
 
     @Test
     void zeroArea() {
-        MallService.Mall mall = new MallService.Mall("City Mall", 0, 3);
-        InvalidInputException e = assertThrows(
-                InvalidInputException.class, () -> service.areaPerFloor(mall));
+        Mall mall = new Mall("City Mall", 0);
+        InvalidInputException e = assertThrows(InvalidInputException.class,
+                () -> service.areaPerFloor(mall, 3));
         assertEquals("error.area.zero", e.getMessage());
     }
 
     @Test
     void zeroFloors() {
-        MallService.Mall mall = new MallService.Mall("City Mall", 3000, 0);
-        InvalidInputException e = assertThrows(
-                InvalidInputException.class, () -> service.areaPerFloor(mall));
+        Mall mall = new Mall("City Mall", 3000);
+        InvalidInputException e = assertThrows(InvalidInputException.class,
+                () -> service.areaPerFloor(mall, 0));
         assertEquals("error.floors.zero", e.getMessage());
     }
 }
