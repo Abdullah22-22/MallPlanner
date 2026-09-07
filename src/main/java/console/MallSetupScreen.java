@@ -1,13 +1,19 @@
 package console;
 
+import controller.MallController;
+import exception.InvalidInputException;
+
 public class MallSetupScreen {
 
     private final ConsoleInput input;
     private final ConsoleOutput output;
+    private final MallController controller;
 
-    public MallSetupScreen(ConsoleInput input, ConsoleOutput output) {
+    public MallSetupScreen(ConsoleInput input, ConsoleOutput output,
+                           MallController controller) {
         this.input = input;
         this.output = output;
+        this.controller = controller;
     }
 
     public void show() {
@@ -48,6 +54,16 @@ public class MallSetupScreen {
             output.showError("error.floors");
         }
 
+        double perFloor = controller.areaPerFloor(mallName, totalArea, floors);
+        System.out.println("Suggested area per floor: " + perFloor);
+
+        int mallId;
+        try {
+            mallId = controller.saveMall(mallName, totalArea);
+        } catch (Exception e) {
+            output.showError("error.save");
+            return;
+        }
         System.out.println();
 
         for (int i = 1; i <= floors; i++) {
@@ -68,6 +84,20 @@ public class MallSetupScreen {
 
             double rentPrice = input.readNumber("floor.rent");
             double cost = input.readNumber("floor.cost");
+
+            try {
+                controller.addFloor(mallId, i, floorArea, rentPrice, cost);
+            } catch (InvalidInputException  e) {
+                output.showError(e.getMessage());
+                i--;
+                System.out.println();
+                continue;
+            } catch (Exception e) {
+                output.showError("error.save");
+                i--;
+                System.out.println();
+                continue;
+            }
 
             System.out.println(
                     "Floor " + i +
