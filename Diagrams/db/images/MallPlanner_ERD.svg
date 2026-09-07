@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620" font-family="Arial, Helvetica, sans-serif">
+  <rect width="900" height="620" fill="#ffffff"/>
+
+  <text x="40" y="46" font-size="24" font-weight="bold" fill="#1F3864">MallPlanner - Database</text>
+
+  <!-- MALL -->
+  <rect x="330" y="80" width="240" height="120" rx="6" fill="#ffffff" stroke="#1F3864" stroke-width="2"/>
+  <rect x="330" y="80" width="240" height="34" rx="6" fill="#1F3864"/>
+  <rect x="330" y="104" width="240" height="10" fill="#1F3864"/>
+  <text x="450" y="103" font-size="16" font-weight="bold" fill="#ffffff" text-anchor="middle">MALL</text>
+  <text x="348" y="138" font-size="14" fill="#111111">id</text>
+  <text x="348" y="162" font-size="14" fill="#111111">name</text>
+  <text x="348" y="186" font-size="14" fill="#111111">total_area</text>
+
+  <!-- line MALL -> FLOOR -->
+  <line x1="450" y1="200" x2="450" y2="250" stroke="#555555" stroke-width="2"/>
+  <text x="466" y="230" font-size="13" fill="#555555">1 : many</text>
+
+  <!-- FLOOR -->
+  <rect x="330" y="250" width="240" height="168" rx="6" fill="#ffffff" stroke="#1F3864" stroke-width="2"/>
+  <rect x="330" y="250" width="240" height="34" rx="6" fill="#1F3864"/>
+  <rect x="330" y="274" width="240" height="10" fill="#1F3864"/>
+  <text x="450" y="273" font-size="16" font-weight="bold" fill="#ffffff" text-anchor="middle">FLOOR</text>
+  <text x="348" y="308" font-size="14" fill="#111111">id</text>
+  <text x="348" y="332" font-size="14" fill="#C00000">mall_id</text>
+  <text x="348" y="356" font-size="14" fill="#111111">floor_number</text>
+  <text x="348" y="380" font-size="14" fill="#111111">area</text>
+  <text x="348" y="404" font-size="14" fill="#111111">rent_price, cost</text>
+
+  <!-- branch lines -->
+  <line x1="450" y1="418" x2="450" y2="450" stroke="#555555" stroke-width="2"/>
+  <line x1="180" y1="450" x2="720" y2="450" stroke="#555555" stroke-width="2"/>
+  <line x1="180" y1="450" x2="180" y2="490" stroke="#555555" stroke-width="2"/>
+  <line x1="720" y1="450" x2="720" y2="490" stroke="#555555" stroke-width="2"/>
+  <text x="466" y="442" font-size="13" fill="#555555">1 : many</text>
+
+  <!-- SERVICE_AREA -->
+  <rect x="60" y="490" width="240" height="120" rx="6" fill="#ffffff" stroke="#1F3864" stroke-width="2"/>
+  <rect x="60" y="490" width="240" height="34" rx="6" fill="#1F3864"/>
+  <rect x="60" y="514" width="240" height="10" fill="#1F3864"/>
+  <text x="180" y="513" font-size="16" font-weight="bold" fill="#ffffff" text-anchor="middle">SERVICE_AREA</text>
+  <text x="78" y="548" font-size="14" fill="#111111">id</text>
+  <text x="78" y="572" font-size="14" fill="#C00000">floor_id</text>
+  <text x="78" y="596" font-size="14" fill="#111111">type, size</text>
+
+  <!-- SHOP -->
+  <rect x="600" y="490" width="240" height="120" rx="6" fill="#ffffff" stroke="#1F3864" stroke-width="2"/>
+  <rect x="600" y="490" width="240" height="34" rx="6" fill="#1F3864"/>
+  <rect x="600" y="514" width="240" height="10" fill="#1F3864"/>
+  <text x="720" y="513" font-size="16" font-weight="bold" fill="#ffffff" text-anchor="middle">SHOP</text>
+  <text x="618" y="548" font-size="14" fill="#111111">id</text>
+  <text x="618" y="572" font-size="14" fill="#C00000">floor_id</text>
+  <text x="618" y="596" font-size="14" fill="#111111">name, area</text>
+
+  <!-- legend -->
+  <text x="620" y="150" font-size="13" fill="#C00000">red = link to another table</text>
+  <text x="620" y="174" font-size="13" fill="#555555">free space is calculated,</text>
+  <text x="620" y="194" font-size="13" fill="#555555">not stored</text>
+</svg>
