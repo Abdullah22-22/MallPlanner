@@ -62,10 +62,10 @@ public class FloorSetupScreen {
 
         System.out.println();
 
-        System.out.println("Floor setup:");
-        System.out.println("Corridor and services: " + corridorPercent + "%");
-        System.out.println("Bathrooms: " + bathrooms);
-        System.out.println("Restaurants: " + restaurants);
-        System.out.println("Lounges: " + lounges);
+        output.show("floor.setup.title");
+        output.show("floor.setup.corridor", corridorPercent);
+        output.show("floor.setup.bathrooms", bathrooms);
+        output.show("floor.setup.restaurants", restaurants);
+        output.show("floor.setup.lounges", lounges);
     }
 }
