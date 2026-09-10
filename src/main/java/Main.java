@@ -1,22 +1,17 @@
+
 import console.ConsoleInput;
 import console.ConsoleOutput;
-import console.FloorSetupScreen;
-import console.ShopScreen;
+import console.MallSetupScreen;
+import controller.MallController;
 
 public class Main {
 
     public static void main(String[] args) {
-
         ConsoleInput input = new ConsoleInput();
         ConsoleOutput output = new ConsoleOutput();
 
-        FloorSetupScreen floorScreen =
-                new FloorSetupScreen(input, output);
-
-        ShopScreen shopScreen =
-                new ShopScreen(input, output);
-
-        floorScreen.show();
-        shopScreen.show();
+        MallController controller = new MallController();
+        MallSetupScreen screen = new MallSetupScreen(input, output, controller);
+        screen.show();
     }
 }

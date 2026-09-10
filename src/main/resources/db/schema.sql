@@ -1,0 +1,35 @@
+CREATE DATABASE IF NOT EXISTS mallplanner;
+
+USE mallplanner;
+
+CREATE TABLE IF NOT EXISTS mall (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    total_area DOUBLE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS floor(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    mall_id INT NOT NULL,
+    floor_number INT NOT NULL,
+    area DOUBLE NOT NULL,
+    rent_price DOUBLE NOT NULL,
+    cost DOUBLE NOT NULL,
+    FOREIGN KEY (mall_id) REFERENCES mall (id)
+);
+
+CREATE TABLE IF NOT EXISTS service_area (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    floor_id INT NOT NULL,
+    type VARCHAR(50) NOT NULL,
+    size DOUBLE NOT NULL,
+    FOREIGN KEY (floor_id) REFERENCES floor(id)
+);
+
+CREATE TABLE IF NOT EXISTS shop (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    floor_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    area DOUBLE NOT NULL,
+    FOREIGN KEY (floor_id) REFERENCES floor(id)
+);

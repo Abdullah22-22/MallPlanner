@@ -23,9 +23,17 @@
             <version>5.10.2</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>3.5.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>
+        <testSourceDirectory>src/test/main/java</testSourceDirectory>
         <plugins>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
