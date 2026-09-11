@@ -22,8 +22,8 @@ public class ServiceArea {
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
-    public int getFloorid() { return floorid; }
-    public void setFloorid(int floorid) { this.floorid = floorid; }
+    public int getFloorId() { return floorid; }
+    public void setFloorId(int floorid) { this.floorid = floorid; }
 
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }
