@@ -1,5 +1,7 @@
 package console;
 
+import model.Floor;
+
 public class FloorSetupScreen {
 
     private final ConsoleInput input;
@@ -10,7 +12,7 @@ public class FloorSetupScreen {
         this.output = output;
     }
 
-    public void show() {
+    public double  show(Floor floor) {
 
         double corridorPercent;
 
@@ -24,10 +26,10 @@ public class FloorSetupScreen {
             output.showError("error.percentage");
         }
 
-        int bathrooms;
+        double  bathrooms;
 
         while (true) {
-            bathrooms = input.readInt("floor.bathrooms");
+            bathrooms = input.readNumber("floor.bathrooms.area");
 
             if (bathrooms >= 0) {
                 break;
@@ -36,10 +38,10 @@ public class FloorSetupScreen {
             output.showError("error.negative");
         }
 
-        int restaurants;
+        double  restaurants;
 
         while (true) {
-            restaurants = input.readInt("floor.restaurants");
+            restaurants = input.readNumber("floor.restaurants.area");
 
             if (restaurants >= 0) {
                 break;
@@ -48,10 +50,10 @@ public class FloorSetupScreen {
             output.showError("error.negative");
         }
 
-        int lounges;
+        double  lounges;
 
         while (true) {
-            lounges = input.readInt("floor.lounges");
+            lounges = input.readNumber("floor.lounges.area");
 
             if (lounges >= 0) {
                 break;
@@ -67,5 +69,8 @@ public class FloorSetupScreen {
         output.show("floor.setup.bathrooms", bathrooms);
         output.show("floor.setup.restaurants", restaurants);
         output.show("floor.setup.lounges", lounges);
+        // Corridor is a percentage of the floor, the rest are areas
+        double corridor = floor.getArea() * corridorPercent / 100;
+        return corridor + bathrooms + restaurants + lounges;
     }
 }
