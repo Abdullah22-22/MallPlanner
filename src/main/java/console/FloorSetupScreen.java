@@ -1,15 +1,18 @@
 package console;
 
+import controller.MallController;
 import model.Floor;
 
 public class FloorSetupScreen {
 
     private final ConsoleInput input;
     private final ConsoleOutput output;
+    private final MallController controller;
 
-    public FloorSetupScreen(ConsoleInput input, ConsoleOutput output) {
+    public FloorSetupScreen(ConsoleInput input, ConsoleOutput output,MallController controller) {
         this.input = input;
         this.output = output;
+        this.controller = controller;
     }
 
     public double  show(Floor floor) {
@@ -71,6 +74,15 @@ public class FloorSetupScreen {
         output.show("floor.setup.lounges", lounges);
         // Corridor is a percentage of the floor, the rest are areas
         double corridor = floor.getArea() * corridorPercent / 100;
+
+        try {
+            controller.addServiceArea(floor.getId(), "corridor", corridor);
+            controller.addServiceArea(floor.getId(), "bathrooms", bathrooms);
+            controller.addServiceArea(floor.getId(), "restaurants", restaurants);
+            controller.addServiceArea(floor.getId(), "lounges", lounges);
+        } catch (Exception e) {
+            output.showError("error.save");
+        }
         return corridor + bathrooms + restaurants + lounges;
     }
 }

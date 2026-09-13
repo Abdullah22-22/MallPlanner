@@ -6,6 +6,8 @@ import console.ShopScreen;
 import controller.MallController;
 import model.Floor;
 
+import java.util.List;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -15,16 +17,18 @@ public class Main {
         MallController controller = new MallController();
 
         MallSetupScreen mallScreen = new MallSetupScreen(input, output, controller);
-        mallScreen.show();
+        List<Floor> floors = mallScreen.show();
 
-        // One floor for now. The list comes from the database later.
-        double floorArea = input.readNumber("floor.area");
-        Floor floor = new Floor(1, 1, floorArea, 200, 50000);
+        FloorSetupScreen floorScreen = new FloorSetupScreen(input, output, controller);
+        ShopScreen shopScreen = new ShopScreen(input, output, controller);
 
-        FloorSetupScreen floorScreen = new FloorSetupScreen(input, output);
-        double services = floorScreen.show(floor);
+        // Every floor gets its own services and its own shops
+        for (Floor floor : floors) {
+            System.out.println();
+            System.out.println("=== Floor " + floor.getFloorNumber() + " ===");
 
-        ShopScreen shopScreen = new ShopScreen(input, output);
-        shopScreen.show(floor, services);
+            floorScreen.show(floor);
+            shopScreen.show(floor);
+        }
     }
 }
