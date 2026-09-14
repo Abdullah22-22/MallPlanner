@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ShopScreen.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MallPlanner</a> &gt; <a href="index.source.html" class="el_package">console</a> &gt; <span class="el_source">ShopScreen.java</span></div><h1>ShopScreen.java</h1><pre class="source lang-java linenums">package console;
+
+import controller.MallController;
+import exception.InvalidInputException;
+import exception.NotEnoughSpaceException;
+import model.Floor;
+import model.Shop;
+
+import java.util.List;
+
+
+public class ShopScreen {
+
+    private final ConsoleInput input;
+    private final ConsoleOutput output;
+    private final MallController controller;
+
+<span class="nc" id="L18">    public ShopScreen(ConsoleInput input, ConsoleOutput output,MallController controller) {</span>
+<span class="nc" id="L19">        this.input = input;</span>
+<span class="nc" id="L20">        this.output = output;</span>
+<span class="nc" id="L21">        this.controller = controller;</span>
+<span class="nc" id="L22">    }</span>
+
+    public void show(Floor floor) {
+
+        while (true) {
+
+            try {
+<span class="nc" id="L29">                double used = controller.usedByShops(floor.getId());</span>
+<span class="nc" id="L30">                double free = controller.freeSpace(floor);</span>
+
+<span class="nc" id="L32">                showShopTable(floor);</span>
+<span class="nc" id="L33">                output.show(&quot;shop.used.space&quot;, used);</span>
+<span class="nc" id="L34">                output.show(&quot;shop.free.space&quot;, free);</span>
+
+<span class="nc" id="L36">            } catch (Exception e) {</span>
+<span class="nc" id="L37">                output.showError(&quot;error.save&quot;);</span>
+<span class="nc" id="L38">                return;</span>
+<span class="nc" id="L39">            }</span>
+
+<span class="nc" id="L41">            int choice = input.readInt(&quot;shop.menu&quot;);</span>
+
+<span class="nc bnc" id="L43" title="All 2 branches missed.">            if (choice == 1) {</span>
+<span class="nc" id="L44">                addShop(floor);</span>
+
+<span class="nc bnc" id="L46" title="All 2 branches missed.">            } else if (choice == 2) {</span>
+<span class="nc" id="L47">                editShop(floor);</span>
+
+<span class="nc bnc" id="L49" title="All 2 branches missed.">            } else if (choice == 3) {</span>
+<span class="nc" id="L50">                deleteShop(floor);</span>
+
+<span class="nc bnc" id="L52" title="All 2 branches missed.">            } else if (choice == 0) {</span>
+
+<span class="nc" id="L54">                break;</span>
+
+            } else {
+
+<span class="nc" id="L58">                output.showError(&quot;error.shop.menu&quot;);</span>
+            }
+<span class="nc" id="L60">        }</span>
+<span class="nc" id="L61">    }</span>
+
+    private void addShop(Floor floor) {
+
+<span class="nc" id="L65">        String shopName = readShopName();</span>
+<span class="nc" id="L66">        double shopArea = input.readNumber(&quot;shop.area&quot;);</span>
+
+        try {
+<span class="nc" id="L69">            controller.addShop(floor, shopName, shopArea);</span>
+<span class="nc" id="L70">            output.show(&quot;shop.added&quot;, shopName);</span>
+
+<span class="nc" id="L72">        } catch (NotEnoughSpaceException e) {</span>
+<span class="nc" id="L73">            output.show(&quot;error.not.enough.space&quot;, e.getMissingArea());</span>
+
+<span class="nc" id="L75">        } catch (InvalidInputException e) {</span>
+<span class="nc" id="L76">            output.showError(e.getMessage());</span>
+
+<span class="nc" id="L78">        } catch (Exception e) {</span>
+<span class="nc" id="L79">            output.showError(&quot;error.save&quot;);</span>
+<span class="nc" id="L80">        }</span>
+<span class="nc" id="L81">    }</span>
+
+    private void editShop(Floor floor) {
+
+<span class="nc" id="L85">        Shop shop = readShopByNumber(floor);</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if (shop == null) {</span>
+<span class="nc" id="L87">            return;</span>
+        }
+
+<span class="nc" id="L90">        double newArea = input.readNumber(&quot;shop.new.area&quot;);</span>
+
+        try {
+<span class="nc" id="L93">            controller.editShop(floor, shop, newArea);</span>
+<span class="nc" id="L94">            output.show(&quot;shop.edited&quot;);</span>
+
+<span class="nc" id="L96">        } catch (NotEnoughSpaceException e) {</span>
+<span class="nc" id="L97">            output.show(&quot;error.not.enough.space&quot;, e.getMissingArea());</span>
+
+<span class="nc" id="L99">        } catch (InvalidInputException e) {</span>
+<span class="nc" id="L100">            output.showError(e.getMessage());</span>
+
+<span class="nc" id="L102">        } catch (Exception e) {</span>
+<span class="nc" id="L103">            output.showError(&quot;error.save&quot;);</span>
+<span class="nc" id="L104">        }</span>
+<span class="nc" id="L105">    }</span>
+
+    private void deleteShop(Floor floor) {
+
+<span class="nc" id="L109">        Shop shop = readShopByNumber(floor);</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        if (shop == null) {</span>
+<span class="nc" id="L111">            return;</span>
+        }
+
+        try {
+<span class="nc" id="L115">            controller.deleteShop(shop);</span>
+<span class="nc" id="L116">            output.show(&quot;shop.deleted&quot;);</span>
+
+<span class="nc" id="L118">        } catch (Exception e) {</span>
+<span class="nc" id="L119">            output.showError(&quot;error.save&quot;);</span>
+<span class="nc" id="L120">        }</span>
+<span class="nc" id="L121">    }</span>
+
+    // Shows the shops of the floor as a numbered list
+    private void showShopTable(Floor floor) throws Exception {
+
+<span class="nc" id="L126">        List&lt;Shop&gt; shops = controller.shopsOfFloor(floor.getId());</span>
+
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        for (int i = 0; i &lt; shops.size(); i++) {</span>
+<span class="nc" id="L129">            Shop shop = shops.get(i);</span>
+<span class="nc" id="L130">            output.show(&quot;shop.table.row&quot;,</span>
+<span class="nc" id="L131">                    i + 1, shop.getName(), shop.getArea());</span>
+        }
+<span class="nc" id="L133">    }</span>
+
+    // Lets the user pick a shop by the number shown in the table
+    private Shop readShopByNumber(Floor floor) {
+
+        try {
+<span class="nc" id="L139">            List&lt;Shop&gt; shops = controller.shopsOfFloor(floor.getId());</span>
+
+<span class="nc bnc" id="L141" title="All 2 branches missed.">            if (shops.isEmpty()) {</span>
+<span class="nc" id="L142">                output.showError(&quot;error.no.shops&quot;);</span>
+<span class="nc" id="L143">                return null;</span>
+            }
+
+<span class="nc" id="L146">            int number = input.readInt(&quot;shop.number&quot;);</span>
+
+<span class="nc bnc" id="L148" title="All 4 branches missed.">            if (number &lt; 1 || number &gt; shops.size()) {</span>
+<span class="nc" id="L149">                output.showError(&quot;error.shop.number&quot;);</span>
+<span class="nc" id="L150">                return null;</span>
+            }
+
+<span class="nc" id="L153">            return shops.get(number - 1);</span>
+
+<span class="nc" id="L155">        } catch (Exception e) {</span>
+<span class="nc" id="L156">            output.showError(&quot;error.save&quot;);</span>
+<span class="nc" id="L157">            return null;</span>
+        }
+    }
+
+    private String readShopName() {
+
+        while (true) {
+
+<span class="nc" id="L165">            String shopName =</span>
+<span class="nc" id="L166">                    input.readText(&quot;shop.name&quot;);</span>
+
+<span class="nc bnc" id="L168" title="All 2 branches missed.">            if (!shopName.isBlank()) {</span>
+<span class="nc" id="L169">                return shopName;</span>
+            }
+
+<span class="nc" id="L172">            output.showError(&quot;error.shop.name&quot;);</span>
+<span class="nc" id="L173">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
