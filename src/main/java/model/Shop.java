@@ -14,7 +14,7 @@ public class Shop {
         this.area = area;
     }
 
-    public Shop(int id, int floorId, String name) {
+    public Shop(int floorId, String name, double area) {
         this.floorId = floorId;
         this.name = name;
         this.area = area;

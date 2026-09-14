@@ -63,7 +63,7 @@ public class ServiceAreaDAO {
     }
 
     public void delete(int id) throws SQLException {
-        String sql = "DELETE DROM service_area WHERE Id = ?";
+        String sql = "DELETE FROM service_area WHERE Id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
