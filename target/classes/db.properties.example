@@ -1,5 +1,0 @@
-db.host=localhost
-db.port=3307
-db.name=mallplanner
-db.user=root
-db.password=
