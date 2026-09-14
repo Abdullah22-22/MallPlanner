@@ -1,9 +1,9 @@
 package service;
 
 import exception.InvalidInputException;
-import model.Floor;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -11,33 +11,29 @@ class FloorServiceTest {
 
     private final FloorService service = new FloorService();
 
-    private Floor floorWithArea(double area) {
-        return new Floor(1, 1, area, 200, 50000);
-    }
-
     @Test
     void normalCase() {
-        assertEquals(550, service.freeSpace(floorWithArea(1000), 450));
+        assertDoesNotThrow(() -> service.checkFloorArea(1000, 5000));
     }
 
     @Test
     void zeroArea() {
         InvalidInputException e = assertThrows(InvalidInputException.class,
-                () -> service.freeSpace(floorWithArea(0), 100));
+                () -> service.checkFloorArea(0, 5000));
         assertEquals("error.area.zero", e.getMessage());
     }
 
     @Test
-    void negativeServices() {
+    void negativeArea() {
         InvalidInputException e = assertThrows(InvalidInputException.class,
-                () -> service.freeSpace(floorWithArea(1000), -50));
-        assertEquals("error.services.negative", e.getMessage());
+                () -> service.checkFloorArea(-100, 5000));
+        assertEquals("error.area.zero", e.getMessage());
     }
 
     @Test
-    void servicesBiggerThanFloor() {
+    void floorBiggerThanMall() {
         InvalidInputException e = assertThrows(InvalidInputException.class,
-                () -> service.freeSpace(floorWithArea(1000), 1200));
-        assertEquals("error.services.big", e.getMessage());
+                () -> service.checkFloorArea(6000, 5000));
+        assertEquals("error.floor.bigger.than.mall", e.getMessage());
     }
 }

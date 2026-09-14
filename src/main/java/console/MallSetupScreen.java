@@ -2,6 +2,10 @@ package console;
 
 import controller.MallController;
 import exception.InvalidInputException;
+import model.Floor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MallSetupScreen {
 
@@ -16,8 +20,9 @@ public class MallSetupScreen {
         this.controller = controller;
     }
 
-    public void show() {
+    public List<Floor> show() {
 
+        List<Floor> savedFloors = new ArrayList<>();
         String mallName;
 
         while (true) {
@@ -62,7 +67,7 @@ public class MallSetupScreen {
             mallId = controller.saveMall(mallName, totalArea);
         } catch (Exception e) {
             output.showError("error.save");
-            return;
+            return savedFloors;
         }
         System.out.println();
 
@@ -86,7 +91,8 @@ public class MallSetupScreen {
             double cost = input.readNumber("floor.cost");
 
             try {
-                controller.addFloor(mallId, i, floorArea, rentPrice, cost);
+                savedFloors.add(
+                controller.addFloor(mallId, i, floorArea, rentPrice, cost));
             } catch (InvalidInputException  e) {
                 output.showError(e.getMessage());
                 i--;
@@ -112,5 +118,6 @@ public class MallSetupScreen {
         System.out.println("Mall: " + mallName);
         System.out.println("Total area: " + totalArea);
         System.out.println("Floors: " + floors);
+        return savedFloors;
     }
 }
