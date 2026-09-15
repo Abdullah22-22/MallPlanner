@@ -39,7 +39,7 @@ class ServiceAreaDAOTest {
         for (ServiceArea a : areas) {
             serviceAreaDAO.delete(a.getId());
         }
-        floorDAO.delete(mall.getId());
+        floorDAO.delete(floor.getId());
         mallDAO.delete(mall.getId());
 
 
