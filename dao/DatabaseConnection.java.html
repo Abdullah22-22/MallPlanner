@@ -15,13 +15,13 @@ import java.util.Properties;
 <span class="fc" id="L15">                .getClassLoader()</span>
 <span class="fc" id="L16">                .getResourceAsStream(&quot;db.properties&quot;)) {</span>
 
-<span class="pc bpc" id="L18" title="1 of 2 branches missed.">            if (in == null) {</span>
-<span class="nc" id="L19">                throw new SQLException(&quot;db.properties not found&quot;);</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">            if (in == null) {</span>
+<span class="fc" id="L19">                throw new SQLException(&quot;db.properties not found&quot;);</span>
             }
 <span class="fc" id="L21">            props.load(in);</span>
 
-<span class="nc" id="L23">        } catch (Exception e) {</span>
-<span class="nc" id="L24">            throw new SQLException(&quot;Cannot read db.properties&quot;, e);</span>
+<span class="fc" id="L23">        } catch (Exception e) {</span>
+<span class="fc" id="L24">            throw new SQLException(&quot;Cannot read db.properties&quot;, e);</span>
 <span class="fc" id="L25">        }</span>
 
 <span class="fc" id="L27">        String url = &quot;jdbc:mariadb://&quot;</span>

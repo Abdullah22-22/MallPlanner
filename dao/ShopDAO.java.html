@@ -10,69 +10,69 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-<span class="nc" id="L13">public class ShopDAO {</span>
+<span class="fc" id="L13">public class ShopDAO {</span>
 
     public void save(Shop shop) throws SQLException {
-<span class="nc" id="L16">        Connection conn = null;</span>
-<span class="nc" id="L17">        PreparedStatement stmt = null;</span>
-<span class="nc" id="L18">        ResultSet keys = null;</span>
+<span class="fc" id="L16">        Connection conn = null;</span>
+<span class="fc" id="L17">        PreparedStatement stmt = null;</span>
+<span class="fc" id="L18">        ResultSet keys = null;</span>
 
         try {
-<span class="nc" id="L21">            conn = DatabaseConnection.getConnection();</span>
+<span class="fc" id="L21">            conn = DatabaseConnection.getConnection();</span>
 
-<span class="nc" id="L23">            String sql = &quot;INSERT INTO shop (floor_id, name, area) VALUES (?, ?, ?)&quot;;</span>
-<span class="nc" id="L24">            stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);</span>
+<span class="fc" id="L23">            String sql = &quot;INSERT INTO shop (floor_id, name, area) VALUES (?, ?, ?)&quot;;</span>
+<span class="fc" id="L24">            stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);</span>
 
-<span class="nc" id="L26">            stmt.setInt(1, shop.getFloorId());</span>
-<span class="nc" id="L27">            stmt.setString(2, shop.getName());</span>
-<span class="nc" id="L28">            stmt.setDouble(3, shop.getArea());</span>
+<span class="fc" id="L26">            stmt.setInt(1, shop.getFloorId());</span>
+<span class="fc" id="L27">            stmt.setString(2, shop.getName());</span>
+<span class="fc" id="L28">            stmt.setDouble(3, shop.getArea());</span>
 
-<span class="nc" id="L30">            stmt.executeUpdate();</span>
+<span class="fc" id="L30">            stmt.executeUpdate();</span>
 
-<span class="nc" id="L32">            keys = stmt.getGeneratedKeys();</span>
-<span class="nc bnc" id="L33" title="All 2 branches missed.">            if (keys.next()) {</span>
-<span class="nc" id="L34">                shop.setId(keys.getInt(1));</span>
+<span class="fc" id="L32">            keys = stmt.getGeneratedKeys();</span>
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">            if (keys.next()) {</span>
+<span class="fc" id="L34">                shop.setId(keys.getInt(1));</span>
             }
 
         }
         finally {
-<span class="nc bnc" id="L39" title="All 2 branches missed.">            if (keys != null) keys.close();</span>
-<span class="nc bnc" id="L40" title="All 2 branches missed.">            if (stmt != null) stmt.close();</span>
-<span class="nc bnc" id="L41" title="All 2 branches missed.">            if (conn != null) conn.close();</span>
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">            if (keys != null) keys.close();</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">            if (stmt != null) stmt.close();</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">            if (conn != null) conn.close();</span>
         }
-<span class="nc" id="L43">    }</span>
+<span class="fc" id="L43">    }</span>
     public List&lt;Shop&gt; findByFloorId(int floorId) throws SQLException {
-<span class="nc" id="L45">        List&lt;Shop&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L45">        List&lt;Shop&gt; result = new ArrayList&lt;&gt;();</span>
 
-<span class="nc" id="L47">        Connection conn = null;</span>
-<span class="nc" id="L48">        PreparedStatement stmt = null;</span>
-<span class="nc" id="L49">        ResultSet rs = null;</span>
+<span class="fc" id="L47">        Connection conn = null;</span>
+<span class="fc" id="L48">        PreparedStatement stmt = null;</span>
+<span class="fc" id="L49">        ResultSet rs = null;</span>
 
         try {
-<span class="nc" id="L52">            conn = DatabaseConnection.getConnection();</span>
+<span class="fc" id="L52">            conn = DatabaseConnection.getConnection();</span>
 
-<span class="nc" id="L54">            String sql = &quot;SELECT * FROM shop WHERE floor_id = ?&quot;;</span>
-<span class="nc" id="L55">            stmt = conn.prepareStatement(sql);</span>
-<span class="nc" id="L56">            stmt.setInt(1, floorId);</span>
+<span class="fc" id="L54">            String sql = &quot;SELECT * FROM shop WHERE floor_id = ?&quot;;</span>
+<span class="fc" id="L55">            stmt = conn.prepareStatement(sql);</span>
+<span class="fc" id="L56">            stmt.setInt(1, floorId);</span>
 
-<span class="nc" id="L58">            rs = stmt.executeQuery();</span>
+<span class="fc" id="L58">            rs = stmt.executeQuery();</span>
 
-<span class="nc bnc" id="L60" title="All 2 branches missed.">            while (rs.next()) {</span>
-<span class="nc" id="L61">                int id = rs.getInt(&quot;id&quot;);</span>
-<span class="nc" id="L62">                int floorIdFromDb = rs.getInt(&quot;floor_id&quot;);</span>
-<span class="nc" id="L63">                String name = rs.getString(&quot;name&quot;);</span>
-<span class="nc" id="L64">                double area = rs.getDouble(&quot;area&quot;);</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L61">                int id = rs.getInt(&quot;id&quot;);</span>
+<span class="fc" id="L62">                int floorIdFromDb = rs.getInt(&quot;floor_id&quot;);</span>
+<span class="fc" id="L63">                String name = rs.getString(&quot;name&quot;);</span>
+<span class="fc" id="L64">                double area = rs.getDouble(&quot;area&quot;);</span>
 
-<span class="nc" id="L66">                Shop shop = new Shop(id, floorIdFromDb, name, area);</span>
-<span class="nc" id="L67">                result.add(shop);</span>
-<span class="nc" id="L68">            }</span>
+<span class="fc" id="L66">                Shop shop = new Shop(id, floorIdFromDb, name, area);</span>
+<span class="fc" id="L67">                result.add(shop);</span>
+<span class="fc" id="L68">            }</span>
         } finally {
-<span class="nc bnc" id="L70" title="All 2 branches missed.">            if (rs != null) rs.close();</span>
-<span class="nc bnc" id="L71" title="All 2 branches missed.">            if (stmt != null) stmt.close();</span>
-<span class="nc bnc" id="L72" title="All 2 branches missed.">            if (conn != null) conn.close();</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">            if (rs != null) rs.close();</span>
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">            if (stmt != null) stmt.close();</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">            if (conn != null) conn.close();</span>
         }
 
-<span class="nc" id="L75">        return result;</span>
+<span class="fc" id="L75">        return result;</span>
 
     }
 
@@ -101,23 +101,23 @@ import java.util.List;
 <span class="nc" id="L101">    }</span>
 
     public void delete(int id) throws SQLException {
-<span class="nc" id="L104">        Connection conn = null;</span>
-<span class="nc" id="L105">        PreparedStatement stmt = null;</span>
+<span class="fc" id="L104">        Connection conn = null;</span>
+<span class="fc" id="L105">        PreparedStatement stmt = null;</span>
 
         try {
-<span class="nc" id="L108">            conn = DatabaseConnection.getConnection();</span>
+<span class="fc" id="L108">            conn = DatabaseConnection.getConnection();</span>
 
-<span class="nc" id="L110">            String sql = &quot;DELETE FROM shop WHERE id = ?&quot;;</span>
-<span class="nc" id="L111">            stmt = conn.prepareStatement (sql);</span>
-<span class="nc" id="L112">            stmt.setInt(1, id);</span>
+<span class="fc" id="L110">            String sql = &quot;DELETE FROM shop WHERE id = ?&quot;;</span>
+<span class="fc" id="L111">            stmt = conn.prepareStatement (sql);</span>
+<span class="fc" id="L112">            stmt.setInt(1, id);</span>
 
-<span class="nc" id="L114">            stmt.executeUpdate();</span>
+<span class="fc" id="L114">            stmt.executeUpdate();</span>
 
         } finally {
-<span class="nc bnc" id="L117" title="All 2 branches missed.">            if (stmt != null) stmt.close();</span>
-<span class="nc bnc" id="L118" title="All 2 branches missed.">            if (conn != null) conn.close();</span>
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">            if (stmt != null) stmt.close();</span>
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">            if (conn != null) conn.close();</span>
         }
 
-<span class="nc" id="L121">    }</span>
+<span class="fc" id="L121">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
