@@ -48,8 +48,10 @@ public class MallController {
                           double rentPrice, double cost) throws SQLException {
         Mall mall = mallDAO.findById(mallId);
         floorService.checkFloorArea(area, mall.getTotalArea());
+
         Floor floor = new Floor(mallId, number, area, rentPrice, cost);
         floorDAO.save(floor);
+
         return floor;
     }
 
@@ -61,15 +63,21 @@ public class MallController {
 
     public void addServiceArea(int floorId, String type, double size)
             throws SQLException {
-        serviceAreaDAO.save(new ServiceArea(floorId, type, size));
+
+        serviceAreaDAO.save(
+                new ServiceArea(floorId, type, size)
+        );
     }
 
     // Sum of all service areas of one floor
     public double totalServices(int floorId) throws SQLException {
+
         double total = 0;
+
         for (ServiceArea area : serviceAreaDAO.findByFloorId(floorId)) {
             total += area.getSize();
         }
+
         return total;
     }
 
@@ -80,34 +88,66 @@ public class MallController {
     }
 
     public double usedByShops(int floorId) throws SQLException {
+
         double used = 0;
+
         for (Shop shop : shopsOfFloor(floorId)) {
             used += shop.getArea();
         }
+
         return used;
     }
 
     public double freeSpace(Floor floor) throws SQLException {
+
         double services = totalServices(floor.getId());
         double used = usedByShops(floor.getId());
+
         return areaService.freeSpace(floor, services, used);
     }
 
     // Service checks first, then the DAO saves
-    public void addShop(Floor floor, String name, double area)
+    public void addShop(Floor floor, String name,
+                        double area, String category)
             throws SQLException {
+
         double services = totalServices(floor.getId());
         double used = usedByShops(floor.getId());
-        shopService.addShop(floor, services, used, area);
-        shopDAO.save(new Shop(0, floor.getId(), name, area));
+
+        shopService.addShop(
+                floor,
+                services,
+                used,
+                area
+        );
+
+        Shop shop = new Shop(
+                0,
+                floor.getId(),
+                name,
+                area,
+                category
+        );
+
+        shopDAO.save(shop);
     }
 
     public void editShop(Floor floor, Shop shop, double newArea)
             throws SQLException {
+
         double services = totalServices(floor.getId());
         double used = usedByShops(floor.getId());
-        shopService.editShop(floor, services, used, shop.getArea(), newArea);
+
+        shopService.editShop(
+                floor,
+                services,
+                used,
+                shop.getArea(),
+                newArea
+        );
+
         shop.setArea(newArea);
+
         shopDAO.update(shop);
     }
 
