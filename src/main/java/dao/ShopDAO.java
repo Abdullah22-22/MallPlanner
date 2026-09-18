@@ -20,12 +20,13 @@ public class ShopDAO {
         try {
             conn = DatabaseConnection.getConnection();
 
-            String sql = "INSERT INTO shop (floor_id, name, area) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO shop (floor_id, name, area, category) VALUES (?, ?, ?, ?)";
             stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             stmt.setInt(1, shop.getFloorId());
             stmt.setString(2, shop.getName());
             stmt.setDouble(3, shop.getArea());
+            stmt.setString(4, shop.getCategory());
 
             stmt.executeUpdate();
 
@@ -62,8 +63,9 @@ public class ShopDAO {
                 int floorIdFromDb = rs.getInt("floor_id");
                 String name = rs.getString("name");
                 double area = rs.getDouble("area");
+                String category = rs.getString("category");
 
-                Shop shop = new Shop(id, floorIdFromDb, name, area);
+                Shop shop = new Shop(id, floorIdFromDb, name, area, category);
                 result.add(shop);
             }
         } finally {
@@ -83,12 +85,13 @@ public class ShopDAO {
         try {
             conn = DatabaseConnection.getConnection();
 
-            String sql = "UPDATE shop SET name = ?, area = ? WHERE id = ?";
+            String sql = "UPDATE shop SET name = ?, area = ?, category = ? WHERE id = ?";
             stmt = conn.prepareStatement(sql);
 
             stmt.setString(1, shop.getName());
             stmt.setDouble(2, shop.getArea());
-            stmt.setInt(3, shop.getId());
+            stmt.setString(3, shop.getCategory());
+            stmt.setInt(4, shop.getId());
 
             stmt.executeUpdate();
 
