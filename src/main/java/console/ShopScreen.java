@@ -112,7 +112,7 @@ public class ShopScreen {
         }
 
         try {
-            controller.deleteShop(shop);
+            controller.deleteShop(floor, shop);
             output.show("shop.deleted");
 
         } catch (Exception e) {
