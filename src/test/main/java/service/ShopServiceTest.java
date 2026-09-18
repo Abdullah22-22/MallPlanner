@@ -28,7 +28,7 @@ class ShopServiceTest {
 
     // One place to create shops (update here if Shop gets a category)
     private Shop shop(int id, double area) {
-        return new Shop(id, floor.getId(), "Shop " + id, area);
+        return new Shop(id, floor.getId(), "Shop " + id, area, "clothes");
     }
 
     // ---------- used and free space ----------

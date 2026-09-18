@@ -108,7 +108,7 @@ public class MallController {
         double services = totalServices(floor.getId());
         List<Shop> shops = shopsOfFloor(floor.getId());
         shopService.addShop(floor, services, shops, area);
-        shopDAO.save(new Shop(0, floor.getId(), name, area));
+        shopDAO.save(new Shop(0, floor.getId(), name, area, category));
 
     }
 

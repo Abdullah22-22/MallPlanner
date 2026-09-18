@@ -115,6 +115,9 @@ public class ShopScreen {
             controller.deleteShop(floor, shop);
             output.show("shop.deleted");
 
+        } catch (InvalidInputException e) {
+            output.showError(e.getMessage());
+
         } catch (Exception e) {
             output.showError("error.save");
         }
