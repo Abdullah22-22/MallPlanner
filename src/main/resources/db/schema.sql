@@ -31,5 +31,6 @@ CREATE TABLE IF NOT EXISTS shop (
     floor_id INT NOT NULL,
     name VARCHAR(100) NOT NULL,
     area DOUBLE NOT NULL,
+    category VARCHAR(50) NOT NULL,
     FOREIGN KEY (floor_id) REFERENCES floor(id)
 );
