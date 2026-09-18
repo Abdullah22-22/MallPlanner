@@ -6,7 +6,7 @@ public class Shop {
     private int floorId;
     private String name;
     private double area;
-    private String address;
+    private String category;
 
     public Shop(int id, int floorId, String name, double area, String category) {
         this.id = id;
