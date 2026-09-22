@@ -1,6 +1,7 @@
 package service;
 
 import exception.InvalidInputException;
+import model.Suggestion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,26 +23,26 @@ class SuggestionServiceTest {
 
     @Test
     void freeArea80_givesThreeOptions() {
-        List<SuggestionService.Suggestion> options = service.buildOptions(80, RENT_PRICE);
+        List<Suggestion> options = service.buildOptions(80, RENT_PRICE);
 
         assertEquals(3, options.size());
 
-        SuggestionService.Suggestion thirty = findBySize(options, 30);
+        Suggestion thirty = findBySize(options, 30);
         assertEquals(2, thirty.getShopCount());
-        assertEquals(6000, thirty.getTotalIncome(), DELTA);   // 2 * 30 * 100
+        assertEquals(6000, thirty.getIncome(), DELTA);
 
-        SuggestionService.Suggestion twenty = findBySize(options, 20);
+        Suggestion twenty = findBySize(options, 20);
         assertEquals(4, twenty.getShopCount());
-        assertEquals(8000, twenty.getTotalIncome(), DELTA);   // 4 * 20 * 100
+        assertEquals(8000, twenty.getIncome(), DELTA);
 
-        SuggestionService.Suggestion sixty = findBySize(options, 60);
+        Suggestion sixty = findBySize(options, 60);
         assertEquals(1, sixty.getShopCount());
-        assertEquals(6000, sixty.getTotalIncome(), DELTA);    // 1 * 60 * 100
+        assertEquals(6000, sixty.getIncome(), DELTA);
     }
 
     @Test
     void noFreeArea_givesNoOptions() {
-        List<SuggestionService.Suggestion> options = service.buildOptions(0, RENT_PRICE);
+        List<Suggestion> options = service.buildOptions(0, RENT_PRICE);
         assertTrue(options.isEmpty());
     }
 
@@ -53,19 +54,19 @@ class SuggestionServiceTest {
 
     @Test
     void sortAndMarkBest_highestIncomeIsFirstAndMarked() {
-        List<SuggestionService.Suggestion> options = service.buildOptions(80, RENT_PRICE);
+        List<Suggestion> options = service.buildOptions(80, RENT_PRICE);
 
-        List<SuggestionService.Suggestion> sorted = service.sortAndMarkBest(options);
+        List<Suggestion> sorted = service.sortAndMarkBest(options);
 
-        assertEquals(8000, sorted.get(0).getTotalIncome(), DELTA);
+        assertEquals(8000, sorted.get(0).getIncome(), DELTA);
         assertTrue(sorted.get(0).isBest());
 
-        long bestCount = sorted.stream().filter(SuggestionService.Suggestion::isBest).count();
+        long bestCount = sorted.stream().filter(Suggestion::isBest).count();
         assertEquals(1, bestCount);
     }
 
-    private SuggestionService.Suggestion findBySize(List<SuggestionService.Suggestion> options, double size) {
-        for (SuggestionService.Suggestion s : options) {
+    private Suggestion findBySize(List<Suggestion> options, double size) {
+        for (Suggestion s : options) {
             if (s.getShopSize() == size) {
                 return s;
             }
