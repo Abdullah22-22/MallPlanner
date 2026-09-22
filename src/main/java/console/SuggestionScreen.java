@@ -1,8 +1,8 @@
 package console;
 
 import model.Floor;
-import model.Suggestion;
 import service.SuggestionService;
+import service.SuggestionService.Suggestion;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class SuggestionScreen {
                         suggestion.getShopCount(),
                         suggestion.getShopSize(),
                         suggestion.getTotalArea(),
-                        suggestion.getIncome(),
+                        suggestion.getTotalIncome(),
                         suggestion.isBest() ? "BEST" : ""
                 );
             }

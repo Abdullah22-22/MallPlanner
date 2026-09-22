@@ -1,6 +1,6 @@
 package console;
 
-import model.FloorProfit;
+import service.ProfitService.FloorProfit;
 
 import java.util.List;
 
