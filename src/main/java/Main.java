@@ -11,7 +11,7 @@ import controller.MallController;
 import model.Floor;
 
 import service.ProfitService;
-import service.ProfitService.FloorProfit;
+import model.FloorProfit;
 
 import java.util.ArrayList;
 import java.util.List;
