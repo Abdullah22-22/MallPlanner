@@ -10,8 +10,8 @@ import controller.MallController;
 
 import model.Floor;
 
+import model.FloorProfit;
 import service.ProfitService;
-import service.ProfitService.FloorProfit;
 
 import java.util.ArrayList;
 import java.util.List;

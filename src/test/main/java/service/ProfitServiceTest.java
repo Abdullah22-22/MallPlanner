@@ -1,10 +1,10 @@
 package service;
 
 import exception.InvalidInputException;
+import model.Floor;
+import model.FloorProfit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import model.Floor;
 
 import java.util.List;
 
@@ -27,8 +27,8 @@ class ProfitServiceTest {
 
     @Test
     void normalCase_incomeAndProfit() {
-        Floor f = floor(1, 200, 100, 5000);          // rentable = 180 (services=20)
-        ProfitService.FloorProfit profit = service.calculateProfit(f, 20, 100);
+        Floor f = floor(1, 200, 100, 5000);
+        FloorProfit profit = service.calculateProfit(f, 20, 100);
 
         assertEquals(18000, profit.getIncome(), DELTA);
         assertEquals(13000, profit.getProfit(), DELTA);
@@ -38,7 +38,7 @@ class ProfitServiceTest {
     @Test
     void zeroShops_occupancyIsZero() {
         Floor f = floor(1, 200, 100, 5000);
-        ProfitService.FloorProfit profit = service.calculateProfit(f, 20, 0);
+        FloorProfit profit = service.calculateProfit(f, 20, 0);
 
         assertEquals(0, profit.getOccupancyPercent(), DELTA);
         assertEquals(18000, profit.getIncome(), DELTA);
@@ -46,30 +46,30 @@ class ProfitServiceTest {
 
     @Test
     void negativeProfit_whenCostBiggerThanIncome() {
-        Floor f = floor(1, 100, 10, 5000);           // rentable = 80, income = 800
-        ProfitService.FloorProfit profit = service.calculateProfit(f, 20, 0);
+        Floor f = floor(1, 100, 10, 5000);
+        FloorProfit profit = service.calculateProfit(f, 20, 0);
 
         assertEquals(-4200, profit.getProfit(), DELTA);
     }
 
     @Test
     void bestFloor_picksHighestProfit() {
-        ProfitService.FloorProfit low = service.calculateProfit(floor(1, 100, 50, 1000), 0, 0);   // profit 4000
-        ProfitService.FloorProfit high = service.calculateProfit(floor(2, 200, 50, 1000), 0, 0);  // profit 9000
+        FloorProfit low = service.calculateProfit(floor(1, 100, 50, 1000), 0, 0);
+        FloorProfit high = service.calculateProfit(floor(2, 200, 50, 1000), 0, 0);
 
-        ProfitService.FloorProfit best = service.bestFloor(List.of(low, high));
+        FloorProfit best = service.bestFloor(List.of(low, high));
 
         assertEquals(2, best.getFloorNumber());
     }
 
     @Test
     void mallOccupancyPercent_averagesAcrossFloors() {
-        ProfitService.FloorProfit f1 = service.calculateProfit(floor(1, 100, 50, 0), 0, 50);   // rentable 100, used 50
-        ProfitService.FloorProfit f2 = service.calculateProfit(floor(2, 100, 50, 0), 0, 100);  // rentable 100, used 100
+        FloorProfit f1 = service.calculateProfit(floor(1, 100, 50, 0), 0, 50);
+        FloorProfit f2 = service.calculateProfit(floor(2, 100, 50, 0), 0, 100);
 
         double occupancy = service.mallOccupancyPercent(List.of(f1, f2));
 
-        assertEquals(75, occupancy, DELTA); // (50+100)/(100+100) * 100
+        assertEquals(75, occupancy, DELTA);
     }
 
     @Test

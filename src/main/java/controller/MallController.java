@@ -11,8 +11,14 @@ import model.Shop;
 import service.FloorService;
 import service.MallService;
 import service.ShopService;
+import model.FloorProfit;
+import model.Suggestion;
+import service.ProfitService;
+import service.SuggestionService;
+
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MallController {
@@ -25,6 +31,8 @@ public class MallController {
     private final FloorDAO floorDAO = new FloorDAO();
     private final ServiceAreaDAO serviceAreaDAO = new ServiceAreaDAO();
     private final ShopDAO shopDAO = new ShopDAO();
+    private final ProfitService profitService = new ProfitService();
+    private final SuggestionService suggestionService = new SuggestionService();
 
     // ---------- mall ----------
 
@@ -129,5 +137,38 @@ public class MallController {
         List<Shop> shops = shopsOfFloor(floor.getId());
         shopService.deleteShop(floor, services, shops, shop);
         shopDAO.delete(shop.getId());
+    }
+
+    // ---------- suggestions ----------
+
+    // Suggestions for one floor: free space, then the service
+    public List<Suggestion> suggestionsForFloor(Floor floor) throws SQLException {
+        double freeArea = freeSpace(floor);
+        List<Suggestion> options = suggestionService.buildOptions(freeArea, floor.getRentPrice());
+        return suggestionService.sortAndMarkBest(options);
+    }
+
+    // ---------- profit report ----------
+
+    // Profit report: load the floors and their shops, then the service
+    public List<FloorProfit> profitReport(int mallId) throws SQLException {
+        List<Floor> floors = floorsOfMall(mallId);
+        List<FloorProfit> profits = new ArrayList<>();
+
+        for (Floor floor : floors) {
+            double services = totalServices(floor.getId());
+            double used = usedByShops(floor.getId());
+            profits.add(profitService.calculateProfit(floor, services, used));
+        }
+
+        return profits;
+    }
+
+    public FloorProfit bestFloor(List<FloorProfit> profits) {
+        return profitService.bestFloor(profits);
+    }
+
+    public double mallOccupancyPercent(List<FloorProfit> profits) {
+        return profitService.mallOccupancyPercent(profits);
     }
 }
