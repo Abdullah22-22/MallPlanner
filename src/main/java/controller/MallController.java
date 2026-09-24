@@ -99,7 +99,7 @@ public class MallController {
         double services = totalServices(floor.getId());
         double used = usedByShops(floor.getId());
         shopService.addShop(floor, services, used, area);
-        shopDAO.save(new Shop(0, floor.getId(), name, area));
+        shopDAO.save(new Shop(0, floor.getId(), name, area, "general"));
     }
 
     public void editShop(Floor floor, Shop shop, double newArea)
