@@ -3,6 +3,7 @@ package console;
 import model.Floor;
 import model.Suggestion;
 import service.SuggestionService;
+import i18n.Messages;
 
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class SuggestionScreen {
                         suggestion.getShopSize(),
                         suggestion.getTotalArea(),
                         suggestion.getIncome(),
-                        suggestion.isBest() ? "BEST" : ""
+                        suggestion.isBest() ? Messages.get("suggestion.best") : ""
                 );
             }
 

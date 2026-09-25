@@ -32,7 +32,7 @@ public class MallSetupScreen {
                 break;
             }
 
-            System.out.println("[!] Mall name cannot be empty");
+            output.showError("error.mall.name.empty");
         }
 
         double totalArea;
@@ -60,7 +60,7 @@ public class MallSetupScreen {
         }
 
         double perFloor = controller.areaPerFloor(mallName, totalArea, floors);
-        System.out.println("Suggested area per floor: " + perFloor);
+        output.show("mall.suggested.area", perFloor);
 
         int mallId;
         try {
@@ -73,7 +73,7 @@ public class MallSetupScreen {
 
         for (int i = 1; i <= floors; i++) {
 
-            System.out.println("Floor " + i);
+            output.show("floor.number", i);
 
             double floorArea;
 
@@ -105,19 +105,14 @@ public class MallSetupScreen {
                 continue;
             }
 
-            System.out.println(
-                    "Floor " + i +
-                            " -> Area: " + floorArea +
-                            ", Rent: " + rentPrice +
-                            ", Cost: " + cost
-            );
+            output.show("floor.summary", i, floorArea, rentPrice, cost);
 
             System.out.println();
         }
 
-        System.out.println("Mall: " + mallName);
-        System.out.println("Total area: " + totalArea);
-        System.out.println("Floors: " + floors);
+        output.show("mall.summary.name", mallName);
+        output.show("mall.summary.area", totalArea);
+        output.show("mall.summary.floors", floors);
         return savedFloors;
     }
 }
