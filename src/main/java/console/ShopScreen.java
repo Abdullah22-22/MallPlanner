@@ -8,14 +8,13 @@ import model.Shop;
 
 import java.util.List;
 
-
 public class ShopScreen {
 
     private final ConsoleInput input;
     private final ConsoleOutput output;
     private final MallController controller;
 
-    public ShopScreen(ConsoleInput input, ConsoleOutput output,MallController controller) {
+    public ShopScreen(ConsoleInput input, ConsoleOutput output, MallController controller) {
         this.input = input;
         this.output = output;
         this.controller = controller;
@@ -50,11 +49,9 @@ public class ShopScreen {
                 deleteShop(floor);
 
             } else if (choice == 0) {
-
                 break;
 
             } else {
-
                 output.showError("error.shop.menu");
             }
         }
@@ -64,9 +61,10 @@ public class ShopScreen {
 
         String shopName = readShopName();
         double shopArea = input.readNumber("shop.area");
+        String shopCategory = readShopCategory();
 
         try {
-            controller.addShop(floor, shopName, shopArea);
+            controller.addShop(floor, shopName, shopArea, shopCategory);
             output.show("shop.added", shopName);
 
         } catch (NotEnoughSpaceException e) {
@@ -83,6 +81,7 @@ public class ShopScreen {
     private void editShop(Floor floor) {
 
         Shop shop = readShopByNumber(floor);
+
         if (shop == null) {
             return;
         }
@@ -107,13 +106,17 @@ public class ShopScreen {
     private void deleteShop(Floor floor) {
 
         Shop shop = readShopByNumber(floor);
+
         if (shop == null) {
             return;
         }
 
         try {
-            controller.deleteShop(shop);
+            controller.deleteShop(floor, shop);
             output.show("shop.deleted");
+
+        } catch (InvalidInputException e) {
+            output.showError(e.getMessage());
 
         } catch (Exception e) {
             output.showError("error.save");
@@ -126,9 +129,16 @@ public class ShopScreen {
         List<Shop> shops = controller.shopsOfFloor(floor.getId());
 
         for (int i = 0; i < shops.size(); i++) {
+
             Shop shop = shops.get(i);
-            output.show("shop.table.row",
-                    i + 1, shop.getName(), shop.getArea());
+
+            output.show(
+                    "shop.table.row",
+                    i + 1,
+                    shop.getName(),
+                    shop.getArea(),
+                    shop.getCategory()
+            );
         }
     }
 
@@ -162,14 +172,27 @@ public class ShopScreen {
 
         while (true) {
 
-            String shopName =
-                    input.readText("shop.name");
+            String shopName = input.readText("shop.name");
 
             if (!shopName.isBlank()) {
                 return shopName;
             }
 
             output.showError("error.shop.name");
+        }
+    }
+
+    private String readShopCategory() {
+
+        while (true) {
+
+            String category = input.readText("shop.category");
+
+            if (!category.isBlank()) {
+                return category;
+            }
+
+            output.showError("error.shop.category");
         }
     }
 }
