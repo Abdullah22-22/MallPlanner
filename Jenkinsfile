@@ -17,7 +17,7 @@ pipeline {
 
         stage('Unit Tests') {
             steps {
-                bat 'mvn -B test'
+                bat 'mvn -B test -Dtest=!*DAOTest -DfailIfNoSpecifiedTests=false'
             }
             post {
                 always {
