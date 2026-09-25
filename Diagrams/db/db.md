@@ -1,26 +1,60 @@
 # MallPlanner — database
 
-Four tables. One mall has many floors. Each floor has services
-and shops.
+Four tables. One mall has many floors. Each floor has services and shops.
 
-![Database diagram](images/MallPlanner_ERD.svg)
+---
+
+## ER diagram
+
+Entities, attributes and relationships, drawn in ERDPlus.
+
+![ER diagram](images/erdplus-er.png)
+
+A mall **has** floors. A floor **contains** service areas and **houses** shops.
+
+---
+
+## Relational schema
+
+The same model as tables, with the keys shown.
+
+![Relational schema](images/erdplus-schema.png)
 
 ---
 
 ## Tables
 
-**MALL** — id, name, total_area
+**MALL** — Mall_id, name, total_area
 
-**FLOOR** — id, mall_id, floor_number, area, rent_price, cost
+**FLOOR** — Floor_id, Mall_id (FK), floor_number, area, rent_price, cost
 
-**SERVICE_AREA** — id, floor_id, type, size
+**SERVICE_AREA** — Service_area_id, Floor_id (FK), type, size
 
-**SHOP** — id, floor_id, name, area
+**SHOP** — Shop_id, Floor_id (FK), name, area, category
 
-Any field ending with `_id` is a link to another table.
+Anything ending in `_id` marked (FK) points at another table. Delete a mall and its floors go with it; delete a floor and its shops and service areas go too.
 
 ---
 
-## Free space is not stored
+## Two things we decided on purpose
 
-We do not keep a free_space column. It is calculated:
+**Free space is not stored.** There is no `free_space` column anywhere. It is calculated every time:
+
+```
+rentable area = floor.area - sum of the service areas on that floor
+free space    = rentable area - sum of the shop areas on that floor
+```
+
+If we stored it, we would have to update it on every add, edit and delete, and one missed update would leave the number wrong forever. Calculating it costs nothing and cannot drift.
+
+**Service areas are rows, not columns.** We could have put `bathrooms`, `restaurants` and `lounges` as three columns on FLOOR. Instead each one is a row in SERVICE_AREA with a `type`. Adding a fourth kind of service later means inserting a row, not changing the table.
+
+---
+
+## Creating it
+
+```
+mysql -u root -p < schema.sql
+```
+
+The tables are MariaDB. `schema.sql` creates all four with their foreign keys.
