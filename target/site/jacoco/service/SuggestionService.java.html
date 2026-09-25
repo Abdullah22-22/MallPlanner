@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SuggestionService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MallPlanner</a> &gt; <a href="index.source.html" class="el_package">service</a> &gt; <span class="el_source">SuggestionService.java</span></div><h1>SuggestionService.java</h1><pre class="source lang-java linenums">package service;
+
+import exception.InvalidInputException;
+import model.Suggestion;
+
+import java.util.ArrayList;
+import java.util.List;
+
+<span class="fc" id="L9">public class SuggestionService {</span>
+
+    // Standard shop sizes the mall suggests filling the free space with
+<span class="fc" id="L12">    private static final double[] SHOP_SIZES = {30, 20, 60};</span>
+
+    // From the free area, build options (2 x 30, 4 x 20, 1 x 60)
+    public List&lt;Suggestion&gt; buildOptions(double freeArea, double rentPrice) {
+<span class="fc bfc" id="L16" title="All 2 branches covered.">        if (freeArea &lt; 0) {</span>
+<span class="fc" id="L17">            throw new InvalidInputException(&quot;error.area.negative&quot;);</span>
+        }
+<span class="pc bpc" id="L19" title="1 of 2 branches missed.">        if (rentPrice &lt;= 0) {</span>
+<span class="nc" id="L20">            throw new InvalidInputException(&quot;error.price.zero&quot;);</span>
+        }
+
+<span class="fc" id="L23">        List&lt;Suggestion&gt; options = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        for (double size : SHOP_SIZES) {</span>
+<span class="fc" id="L25">            int count = (int) (freeArea / size);</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">            if (count &gt;= 1) {</span>
+<span class="fc" id="L27">                double totalIncome = count * size * rentPrice;</span>
+<span class="fc" id="L28">                double areaLeft = freeArea - (count * size);</span>
+<span class="fc" id="L29">                options.add(new Suggestion(count, size, areaLeft, totalIncome));</span>
+            }
+        }
+<span class="fc" id="L32">        return options;</span>
+    }
+
+    // Sort the options by income and mark the best one
+    public List&lt;Suggestion&gt; sortAndMarkBest(List&lt;Suggestion&gt; options) {
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">        if (options == null) {</span>
+<span class="nc" id="L38">            throw new InvalidInputException(&quot;error.options.null&quot;);</span>
+        }
+
+<span class="fc" id="L41">        List&lt;Suggestion&gt; sorted = new ArrayList&lt;&gt;(options);</span>
+<span class="fc" id="L42">        sorted.sort((a, b) -&gt; Double.compare(b.getIncome(), a.getIncome()));</span>
+
+
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        for (Suggestion s : sorted) {</span>
+<span class="fc" id="L46">            s.setBest(false);</span>
+<span class="fc" id="L47">        }</span>
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if (!sorted.isEmpty()) {</span>
+<span class="fc" id="L49">            sorted.get(0).setBest(true);</span>
+        }
+<span class="fc" id="L51">        return sorted;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

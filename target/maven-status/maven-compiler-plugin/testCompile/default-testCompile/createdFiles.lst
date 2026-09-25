@@ -1,0 +1,10 @@
+dao\MallDAOTest.class
+dao\FloorDAOTest.class
+service\FloorServiceTest.class
+service\ProfitServiceTest.class
+service\AreaServiceTest.class
+service\MallServiceTest.class
+dao\ServiceAreaDAOTest.class
+service\ShopServiceTest.class
+dao\ShopDAOTest.class
+service\SuggestionServiceTest.class
