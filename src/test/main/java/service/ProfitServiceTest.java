@@ -30,8 +30,8 @@ class ProfitServiceTest {
         Floor f = floor(1, 200, 100, 5000);
         FloorProfit profit = service.calculateProfit(f, 20, 100);
 
-        assertEquals(18000, profit.getIncome(), DELTA);
-        assertEquals(13000, profit.getProfit(), DELTA);
+        assertEquals(10000, profit.getIncome(), DELTA);
+        assertEquals(5000, profit.getProfit(), DELTA);
         assertEquals((100.0 / 180) * 100, profit.getOccupancyPercent(), DELTA);
     }
 
@@ -41,7 +41,7 @@ class ProfitServiceTest {
         FloorProfit profit = service.calculateProfit(f, 20, 0);
 
         assertEquals(0, profit.getOccupancyPercent(), DELTA);
-        assertEquals(18000, profit.getIncome(), DELTA);
+        assertEquals(0, profit.getIncome(), DELTA);
     }
 
     @Test
@@ -49,13 +49,13 @@ class ProfitServiceTest {
         Floor f = floor(1, 100, 10, 5000);
         FloorProfit profit = service.calculateProfit(f, 20, 0);
 
-        assertEquals(-4200, profit.getProfit(), DELTA);
+        assertEquals(-5000, profit.getProfit(), DELTA);
     }
 
     @Test
     void bestFloor_picksHighestProfit() {
-        FloorProfit low = service.calculateProfit(floor(1, 100, 50, 1000), 0, 0);
-        FloorProfit high = service.calculateProfit(floor(2, 200, 50, 1000), 0, 0);
+        FloorProfit low = service.calculateProfit(floor(1, 100, 50, 1000), 0, 10);
+        FloorProfit high = service.calculateProfit(floor(2, 200, 50, 1000), 0, 100);
 
         FloorProfit best = service.bestFloor(List.of(low, high));
 

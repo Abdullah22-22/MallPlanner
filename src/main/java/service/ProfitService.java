@@ -10,13 +10,14 @@ public class ProfitService {
 
     private final AreaService areaService = new AreaService();
 
-    // Income = rentable area x rent price. Profit = income - cost.
+    // Income = area actually rented by shops x rent price. Profit = income - cost.
     public FloorProfit calculateProfit(Floor floor, double services, double usedByShops) {
         double rentable = areaService.rentableArea(floor, services);
         double freeArea = areaService.freeSpace(floor, services, usedByShops);
 
-        double income = rentable * floor.getRentPrice();
+        double income = usedByShops * floor.getRentPrice();
         double profit = income - floor.getCost();
+
         double occupancy = rentable == 0 ? 0 : (usedByShops / rentable) * 100;
 
         return new FloorProfit(floor.getFloorNumber(), rentable, usedByShops,
