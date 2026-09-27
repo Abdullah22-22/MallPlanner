@@ -1,5 +1,6 @@
 package console;
 
+import controller.MallController;
 import model.Floor;
 import model.Suggestion;
 import service.SuggestionService;
@@ -11,11 +12,13 @@ public class SuggestionScreen {
 
     private final ConsoleInput input;
     private final ConsoleOutput output;
+    private final MallController controller;
     private final SuggestionService suggestionService;
 
-    public SuggestionScreen(ConsoleInput input, ConsoleOutput output) {
+    public SuggestionScreen(ConsoleInput input, ConsoleOutput output, MallController controller) {
         this.input = input;
         this.output = output;
+        this.controller = controller;
         this.suggestionService = new SuggestionService();
     }
 
@@ -64,6 +67,18 @@ public class SuggestionScreen {
             }
 
             Suggestion selected = options.get(choice - 1);
+
+            int existing = controller.shopsOfFloor(floor.getId()).size();
+
+            for (int i = 1; i <= selected.getShopCount(); i++) {
+
+                controller.addShop(
+                        floor,
+                        Messages.get("suggestion.shop.name") + " " + (existing + i),
+                        selected.getShopSize(),
+                        Messages.get("suggestion.shop.category")
+                );
+            }
 
             output.show(
                     "suggestion.selected",

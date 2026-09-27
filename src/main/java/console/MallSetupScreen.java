@@ -59,9 +59,6 @@ public class MallSetupScreen {
             output.showError("error.floors");
         }
 
-        double perFloor = controller.areaPerFloor(mallName, totalArea, floors);
-        output.show("mall.suggested.area", perFloor);
-
         int mallId;
         try {
             mallId = controller.saveMall(mallName, totalArea);

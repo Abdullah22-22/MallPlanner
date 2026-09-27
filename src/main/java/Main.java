@@ -41,7 +41,7 @@ public class Main {
                 new ShopScreen(input, output, controller);
 
         SuggestionScreen suggestionScreen =
-                new SuggestionScreen(input, output);
+                new SuggestionScreen(input, output, controller);
 
         ReportScreen reportScreen =
                 new ReportScreen(output);
@@ -62,17 +62,18 @@ public class Main {
 
             try {
 
-                double services =
-                        controller.totalServices(floor.getId());
-
-                double usedByShops =
-                        controller.usedByShops(floor.getId());
-
                 double freeArea =
                         controller.freeSpace(floor);
 
                 // Show suggestions after shops
                 suggestionScreen.show(floor, freeArea);
+
+                // Read the totals again - the suggestion may have added shops
+                double services =
+                        controller.totalServices(floor.getId());
+
+                double usedByShops =
+                        controller.usedByShops(floor.getId());
 
                 // Calculate report information
                 FloorProfit floorProfit =
