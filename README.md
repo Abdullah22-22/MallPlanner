@@ -1,6 +1,8 @@
 # MallPlanner
 
-A Java app that helps you split the space inside a shopping mall between services and shops, and tells you how much money each floor makes.
+Say you have a shopping mall and an empty floor. How much of it can you actually rent out, once the corridors and the bathrooms have taken their share? And does the floor make money?
+
+That is what this app answers.
 
 **Course:** Software Project 1 - Metropolia UAS, F2026
 **Team:** Abdullah Al-Tameemi, Farha Mim, Sarujan Mathyruban
@@ -10,44 +12,44 @@ A Java app that helps you split the space inside a shopping mall between service
 
 ## What it does
 
-You start with the mall: a name, a total area, and how many floors.
+You start with the mall: a name, a total area, and how many floors. The area is the ground the building sits on. The floors stack, so 1000 m² with three floors gives you 3000 m² to play with.
 
-Then you go floor by floor. You say how much space the corridors take, and how much goes to bathrooms, restaurants and lounges. The app subtracts all of that and tells you what is left for shops. Everything else in the app is built on that one number.
+Then you take the floors one at a time. How much goes to corridors, bathrooms, restaurants, lounges. The app subtracts it all and hands you one number: what is left for shops. Everything else grows out of that number.
 
-After that you add shops. Name, area, category. You can edit a shop or delete it, and the free space updates right away. If a shop does not fit, the app says no and tells you exactly how many square metres are missing.
+Now you fill it. Add a shop with a name, an area and a category. Change your mind and edit it, or delete it - the free space and the profit follow along. Try to squeeze in a shop that does not fit and the app stops you, and tells you how many square metres short you are.
 
-If there is space left over, the app suggests what to do with it. 60 free square metres fit two shops of 30, or three of 20, and it shows which brings more income.
+Space left at the end? The app has ideas. 60 free square metres take two shops of 30, or three of 20, and it tells you which one earns more. Say yes and it puts them there for you, named Shop 1, Shop 2 and so on. Rename them later if you like.
 
-At the end you get a report: every floor with its rentable area, shop area, free space, income and profit. Plus the best floor and how full the mall is.
+Then the report: floor by floor, the rentable area, what the shops took, what is still empty, the income and the profit. Which floor did best, and how full the mall is overall.
 
-It runs in English and in Finnish.
+The whole thing runs in English or in Finnish, whichever you pick when it starts.
 
-It is a space calculator and a profit analyzer. It does not draw floor plans and it does not handle tenants or contracts.
+It is a calculator, not an architect. It will not draw you a floor plan and it does not know anything about tenants or contracts.
 
 ---
 
-## How to run it
+## Running it
 
 You need Java 21, Maven and a MariaDB server.
 
 1. Create the database with `schema.sql`
-2. Copy `db.properties.example` to `db.properties` and put in your own host, port, database name, user and password. This file is in `.gitignore`. Do not commit it.
+2. Copy `db.properties.example` to `db.properties` and fill in your own host, port, database name, user and password. It is in `.gitignore`. Leave it there.
 3. `mvn clean test`
 4. Run `Main`
 
 It asks for the language first, then the mall.
 
-### Or just use Docker
+### Or skip all of that
 
 ```
 docker run -it abdullah22hel/mallplanner:1.0
 ```
 
-That is the whole thing. No Java, no Maven, nothing to install.
+No Java, no Maven, nothing to install.
 
-The `-it` matters - the program reads from the keyboard, and without it you cannot type anything.
+Keep the `-it`. The program waits for you to type, and without it you cannot.
 
-One honest note: the database is not inside the image. The app starts, all the screens work, the calculations are right, but saving fails unless a MariaDB server is reachable from the container. We are putting the two together with Docker Compose in Sprint 4.
+One thing we should be upfront about: the database is not in the image. The app runs, the screens work, the maths is right, but nothing gets saved unless a MariaDB is reachable from inside the container. Docker Compose sorts that out in Sprint 4.
 
 Image: <https://hub.docker.com/r/abdullah22hel/mallplanner>
 
@@ -57,30 +59,30 @@ Image: <https://hub.docker.com/r/abdullah22hel/mallplanner>
 
 | | | |
 | --- | --- | --- |
-| Java 21 | language | the course is in Java and so are all the examples |
-| Maven | build | one command builds and tests everything |
-| MariaDB | database | the course asks for a relational one, and this is the one from the lectures |
+| Java 21 | language | the course is in Java and so is every example |
+| Maven | build | one command builds and tests the lot |
+| MariaDB | database | the course wants a relational one, this is the one from the lectures |
 | JUnit 5 | tests | the standard, and Maven already knows it |
 | JaCoCo | coverage | makes the HTML report we publish |
 | Jenkins | CI/CD | builds and tests every commit to main |
-| Docker | container | runs the app anywhere without installing anything |
-| Console | UI for now | quick to build, so we could finish the logic first |
+| Docker | container | runs anywhere, installs nothing |
+| Console | UI for now | quick to build, so the logic could come first |
 | JavaFX | UI in Sprint 4 | same logic underneath, new screens on top |
 | .properties files | languages | built into Java, no extra library |
 
-### One decision worth explaining
+### The one choice worth explaining
 
-The logic never touches the screen. A service class does not print anything and does not know the console exists. When something is wrong it throws a key like `error.area.zero`, and the screen decides how to show it.
+The logic never touches the screen. A service class prints nothing and has no idea the console exists. When something goes wrong it throws a key like `error.area.zero`, and the screen works out what to say.
 
-We did it this way so the JavaFX version in Sprint 4 can reuse the same code instead of copying it.
+We did it that way so the JavaFX version in Sprint 4 can pick up the same code instead of copying it.
 
-Same reason there is no text written inside any `.java` file. It all lives in `messages_en.properties` and `messages_fi.properties`. A third language would just be one more file.
+Same reason there is no text sitting inside a `.java` file anywhere. It all lives in `messages_en.properties` and `messages_fi.properties`. A third language is one more file, nothing else.
 
 ---
 
 ## Tests
 
-45 tests, all green.
+45 of them, all green.
 
 ```
 mvn clean test
@@ -88,7 +90,7 @@ mvn clean test
 
 Report: <https://abdullah22-22.github.io/MallPlanner/>
 
-The whole project sits at 42%, and that number needs a sentence of explanation:
+The project sits at 42%, and that number deserves a sentence:
 
 | exception | 100% |
 | --- | --- |
@@ -97,15 +99,15 @@ The whole project sits at 42%, and that number needs a sentence of explanation:
 | dao | 79% |
 | console | 0% |
 
-The thinking happens in the services, so that is where we put the tests. The console classes just wait for someone to type, and we cannot test that automatically yet. We would rather have 95% where it counts than a nicer-looking average.
+The thinking happens in the services, so that is where the tests went. The console classes just sit there waiting for someone to type, and we have no way to test that automatically yet. We would take 95% where it matters over a prettier average.
 
 ---
 
 ## Jenkins
 
-The pipeline runs on every commit to `main`: checkout, build, unit tests, coverage. It is all in the `Jenkinsfile`.
+Every commit to `main` kicks off the pipeline: checkout, build, unit tests, coverage. It is all in the `Jenkinsfile`.
 
-It skips the four DAO tests. Those need a real database and the build server does not have one, so they only run on our machines. That is also why Jenkins shows a lower coverage number than the published report - it is not counting the `dao` package at all.
+It leaves out the four DAO tests. They want a real database and the build server has not got one, so those stay on our machines. It is also why Jenkins reports a lower coverage number than the published one - it never sees the `dao` package.
 
 ---
 
@@ -117,7 +119,7 @@ It skips the four DAO tests. Those need a real database and the build server doe
 | Sprint 3 | shops, profit report, suggestions, two languages, Jenkins, Docker | done |
 | Sprint 4 | JavaFX | next |
 
-Still missing, and we know it: the app does not offer sensible default values for the service areas, the report shows shop area but not the number of shops, and nothing stops you from giving two floors more area than the whole mall has.
+Two things we have not got to: the app does not offer sensible starting values for the service areas, and the report gives you the shop area but not how many shops there are. Both small, both on the board.
 
 ---
 
