@@ -27,3 +27,34 @@
     -fx-font-size: 24px;
     -fx-font-weight: bold;
 }
+
+
+.header {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: transparent transparent #E2DED6 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.header-brand {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E2126;
+}
+
+.header-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #5F6570;
+}
+
+.lang-button {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #1E2126;
+    -fx-border-color: #D6D1C7;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8 18 8 18;
+}
+
+.lang-button:hover {
+    -fx-background-color: #F1EEE8;
+}
