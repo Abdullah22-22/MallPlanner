@@ -14,6 +14,8 @@ import model.Floor;
 import model.FloorProfit;
 import service.ProfitService;
 
+import ui.UiFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,10 @@ public class Main {
 
     public static void main(String[] args) {
 
+        UiFactory.start(args, Main::runConsole);
+    }
+
+    private static void runConsole() {
         ConsoleInput input = new ConsoleInput();
         ConsoleOutput output = new ConsoleOutput();
 
