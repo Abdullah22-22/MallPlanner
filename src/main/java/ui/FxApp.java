@@ -23,7 +23,6 @@ public class FxApp extends Application {
                 FxApp.class.getResource("/styles.css").toExternalForm());
 
         root.setTop(new HeaderBar());
-
         stage.setTitle("MallPlanner");
         stage.setScene(scene);
         stage.show();
@@ -39,6 +38,14 @@ public class FxApp extends Application {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
         alert.setContentText(Messages.get(messageKey));
+        alert.showAndWait();
+    }
+
+    // Same as above, but for messages that carry numbers
+    public static void showError(String messageKey, Object... args) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(null);
+        alert.setContentText(Messages.get(messageKey, args));
         alert.showAndWait();
     }
 
