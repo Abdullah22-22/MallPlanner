@@ -87,6 +87,8 @@ public class ShopView extends VBox {
         actionsCol.setPrefWidth(200);
         actionsCol.setCellFactory(column -> new ActionCell());
 
+        table.setColumnResizePolicy(
+                TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
         table.getColumns().addAll(nameCol, areaCol, categoryCol, actionsCol);
         table.setItems(FXCollections.observableArrayList(loadShops()));
         return table;
