@@ -113,12 +113,12 @@ public class SuggestionView extends VBox {
 
     private HBox buildButtons() {
         Button report = new Button(Messages.get("suggestion.see.report"));
-        report.setOnAction(e -> FxApp.switchScreen(new ReportView()));
+        report.setOnAction(e -> FxApp.switchScreen(ReportView::new));
 
         Button skip = new Button(Messages.get("suggestion.skip"));
         skip.getStyleClass().add("lang-button");
         // Skip changes nothing on the floor
-        skip.setOnAction(e -> FxApp.switchScreen(new ReportView()));
+        skip.setOnAction(e -> FxApp.switchScreen(ReportView::new));
 
         return new HBox(12, report, skip);
     }
@@ -140,7 +140,7 @@ public class SuggestionView extends VBox {
                         Messages.get("suggestion.shop.category"));
             }
 
-            FxApp.switchScreen(new ShopView());
+            FxApp.switchScreen(ShopView::new);
 
         } catch (InvalidInputException e) {
             FxApp.showError(e.getMessage());
