@@ -30,6 +30,7 @@ public class FxApp extends Application {
         stage.setTitle("MallPlanner");
         stage.setScene(scene);
         stage.show();
+        switchScreen(new MallSetupView());
     }
 
     // Every screen calls this to move to the next one
