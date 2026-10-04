@@ -87,3 +87,22 @@
     -fx-text-fill: #1F5F8B;
     -fx-font-weight: bold;
 }
+
+
+.stat-caption {
+    -fx-font-size: 11px;
+    -fx-text-fill: #5F6570;
+}
+
+.stat-value {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.default-color0.chart-bar {
+    -fx-bar-fill: #1F5F8B;
+}

@@ -114,14 +114,12 @@ public class SuggestionView extends VBox {
 
     private HBox buildButtons() {
         Button report = new Button(Messages.get("suggestion.see.report"));
-        // TODO: ReportView once US-22 is done
-        report.setOnAction(e -> FxApp.switchScreen(new ShopView()));
+        report.setOnAction(e -> FxApp.switchScreen(new ReportView()));
 
         Button skip = new Button(Messages.get("suggestion.skip"));
         skip.getStyleClass().add("lang-button");
         // Skip changes nothing on the floor
-        // TODO: ReportView once US-22 is done
-        skip.setOnAction(e -> FxApp.switchScreen(new ShopView()));
+        skip.setOnAction(e -> FxApp.switchScreen(new ReportView()));
 
         return new HBox(12, report, skip);
     }

@@ -24,6 +24,7 @@ public class FxApp extends Application {
 
         root.setTop(new HeaderBar());
         stage.setTitle("MallPlanner");
+        root.setCenter(new ReportView());
         stage.setScene(scene);
         stage.show();
     }
