@@ -25,7 +25,6 @@ public class ReportView extends VBox {
     private final MallController controller = new MallController();
 
     public ReportView() {
-        AppState.mallId = 173;   // TODO: remove, US-18 writes this
         setSpacing(20);
         setPadding(new Insets(28));
 

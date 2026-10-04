@@ -23,7 +23,6 @@ public class SuggestionView extends VBox {
         setSpacing(20);
         setPadding(new Insets(28));
 
-        // TODO: remove once FloorSetupView (US-19) is done
         if (AppState.currentFloor == null) {
             AppState.currentFloor = SampleData.floor();
         }

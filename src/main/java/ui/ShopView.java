@@ -29,9 +29,8 @@ public class ShopView extends VBox {
         setSpacing(20);
         setPadding(new Insets(28));
 
-        // TODO: remove once FloorSetupView is done — floor 190 exists in the database
         if (AppState.currentFloor == null) {
-            AppState.currentFloor = new model.Floor(190, 1, 1, 1000, 100, 20000);
+            AppState.currentFloor = SampleData.floor();
         }
 
         getChildren().addAll(buildForm(), buildTable(), buildCapacityBar());
