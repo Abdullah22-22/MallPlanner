@@ -15,6 +15,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import model.Shop;
 
+import javafx.util.StringConverter;
 import java.util.List;
 
 public class ShopView extends VBox {
@@ -49,6 +50,19 @@ public class ShopView extends VBox {
                 "food", "clothes", "other"));
         categoryBox.setValue("food");
         categoryBox.setPrefWidth(160);
+
+        // The value stays English in the database; only the label is translated
+        categoryBox.setConverter(new StringConverter<String>() {
+            @Override
+            public String toString(String key) {
+                return key == null ? "" : Messages.get("shop.category." + key);
+            }
+
+            @Override
+            public String fromString(String shown) {
+                return shown;
+            }
+        });
 
         Button addButton = new Button(Messages.get("shop.add"));
         addButton.setOnAction(e -> addShop());
@@ -86,6 +100,7 @@ public class ShopView extends VBox {
         actionsCol.setPrefWidth(200);
         actionsCol.setCellFactory(column -> new ActionCell());
 
+        table.setPlaceholder(new Label(Messages.get("shop.table.empty")));
         table.setColumnResizePolicy(
                 TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
         table.getColumns().addAll(nameCol, areaCol, categoryCol, actionsCol);
@@ -158,7 +173,7 @@ public class ShopView extends VBox {
             controller.addShop(AppState.currentFloor, name, area,
                     categoryBox.getValue());
 
-            FxApp.switchScreen(new ShopView());
+            FxApp.switchScreen(ShopView::new);
 
         } catch (NumberFormatException e) {
             FxApp.showError("error.not.a.number");

@@ -8,10 +8,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.function.Supplier;
+
 public class FxApp extends Application {
 
     private static BorderPane root;
     private static Stage stage;
+    // How to rebuild whatever is on screen, for a language change
+    private static Supplier<Pane> currentScreen;
 
     @Override
     public void start(Stage primaryStage) {
@@ -30,7 +34,23 @@ public class FxApp extends Application {
 
     // Every screen calls this to move to the next one
     public static void switchScreen(Pane screen) {
+        currentScreen = null;
         root.setCenter(screen);
+    }
+
+    // Same, but remembers how to build the screen again.
+    // A screen passed this way comes back in the new language
+    // when the user presses English or Suomi.
+    public static void switchScreen(Supplier<Pane> screenFactory) {
+        currentScreen = screenFactory;
+        root.setCenter(screenFactory.get());
+    }
+
+    // Builds the current screen again, so its labels read Messages anew
+    public static void redrawCurrentScreen() {
+        if (currentScreen != null) {
+            root.setCenter(currentScreen.get());
+        }
     }
 
     // Every screen calls this with a message key from a service
