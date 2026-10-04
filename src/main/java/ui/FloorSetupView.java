@@ -163,7 +163,7 @@ public class FloorSetupView extends VBox {
 
             AppState.mallId = mallId;
             AppState.currentFloor = savedFloor;
-            FxApp.switchScreen(new ShopView());
+            FxApp.switchScreen(ShopView::new);
 
         } catch (NumberFormatException exception) {
             FxApp.showError("error.not.a.number");
