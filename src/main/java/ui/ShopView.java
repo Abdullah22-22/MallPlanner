@@ -30,6 +30,7 @@ public class ShopView extends VBox {
     public ShopView() {
         setSpacing(20);
         setPadding(new Insets(28));
+        StepSidebar.setCurrent(StepSidebar.SHOPS);
 
         if (AppState.currentFloor == null) {
             AppState.currentFloor = SampleData.floor();

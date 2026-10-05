@@ -45,6 +45,7 @@ public class FloorSetupView extends VBox {
 
         setSpacing(20);
         setPadding(new Insets(28));
+        StepSidebar.setCurrent(StepSidebar.FLOOR);
 
         Label title = new Label(
                 Messages.get("floor.setup.title") + " "

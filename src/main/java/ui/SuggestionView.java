@@ -22,6 +22,7 @@ public class SuggestionView extends VBox {
     public SuggestionView() {
         setSpacing(20);
         setPadding(new Insets(28));
+        StepSidebar.setCurrent(StepSidebar.SUGGESTIONS);
 
         if (AppState.currentFloor == null) {
             AppState.currentFloor = SampleData.floor();

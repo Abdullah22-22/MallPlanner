@@ -25,6 +25,7 @@ public class MallSetupView extends VBox {
     public MallSetupView() {
         setSpacing(20);
         setPadding(new Insets(28));
+        StepSidebar.setCurrent(StepSidebar.MALL);
 
         Label title = new Label(Messages.get("mall.setup.title"));
 
