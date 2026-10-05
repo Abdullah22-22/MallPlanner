@@ -33,7 +33,10 @@ public class ShopView extends VBox {
         StepSidebar.setCurrent(StepSidebar.SHOPS);
 
         if (AppState.currentFloor == null) {
-            AppState.currentFloor = SampleData.floor();
+            getChildren().addAll(
+                    new Label(Messages.get("error.no.floor")),
+                    backToMallButton());
+            return;
         }
 
         getChildren().addAll(buildForm(), buildTable(), buildCapacityBar(),
@@ -237,7 +240,8 @@ public class ShopView extends VBox {
         try {
             return controller.shopsOfFloor(AppState.currentFloor.getId());
         } catch (Exception e) {
-            return SampleData.shops();   // no database yet
+            FxApp.showError("error.save");
+            return List.of();
         }
     }
 
@@ -280,5 +284,12 @@ public class ShopView extends VBox {
                 Platform.exit();
             }
         });
+    }
+
+    // Shown when the screen is reached without a floor
+    private HBox backToMallButton() {
+        Button back = new Button(Messages.get("report.new.mall"));
+        back.setOnAction(e -> FxApp.switchScreen(MallSetupView::new));
+        return new HBox(back);
     }
 }
