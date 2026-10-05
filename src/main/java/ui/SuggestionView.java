@@ -25,7 +25,10 @@ public class SuggestionView extends VBox {
         StepSidebar.setCurrent(StepSidebar.SUGGESTIONS);
 
         if (AppState.currentFloor == null) {
-            AppState.currentFloor = SampleData.floor();
+            getChildren().addAll(
+                    new Label(Messages.get("error.no.floor")),
+                    buildButtons());
+            return;
         }
 
         try {
@@ -48,8 +51,10 @@ public class SuggestionView extends VBox {
 
         } catch (InvalidInputException e) {
             FxApp.showError(e.getMessage());
+            getChildren().add(buildButtons());
         } catch (Exception e) {
             FxApp.showError("error.suggestion");
+            getChildren().add(buildButtons());
         }
     }
 

@@ -8,9 +8,14 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.Region;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.scene.layout.HBox;
@@ -32,7 +37,9 @@ public class ReportView extends VBox {
         List<FloorProfit> profits = loadReport();
 
         if (profits.isEmpty()) {
-            getChildren().add(new Label(Messages.get("error.report.empty")));
+            getChildren().addAll(
+                    new Label(Messages.get("error.report.empty")),
+                    buildButtons());
             return;
         }
 
@@ -43,7 +50,8 @@ public class ReportView extends VBox {
                 title,
                 buildStatCards(profits),
                 buildTable(profits),
-                buildChart(profits));
+                buildChart(profits),
+                buildButtons());
     }
 
     // ---------- the three cards on top ----------
@@ -143,8 +151,45 @@ public class ReportView extends VBox {
                 return profits;
             }
         } catch (Exception e) {
-            // no mall saved yet
+            FxApp.showError("error.save");
         }
-        return SampleData.report();   // TODO: remove once MallSetupView (US-18) is done
+        return List.of();
+    }
+
+    // ---------- the buttons at the bottom ----------
+
+    private HBox buildButtons() {
+        Button newMall = new Button(Messages.get("report.new.mall"));
+        newMall.setOnAction(e -> startNewMall());
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        Button quit = new Button(Messages.get("app.quit"));
+        quit.getStyleClass().add("lang-button");
+        quit.setOnAction(e -> confirmQuit());
+
+        return new HBox(12, newMall, spacer, quit);
+    }
+
+    // Clears the mall and the floor, so the next run starts clean
+    private void startNewMall() {
+        AppState.mallId = 0;
+        AppState.floorCount = 0;
+        AppState.currentFloor = null;
+        FxApp.switchScreen(MallSetupView::new);
+    }
+
+    private void confirmQuit() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setTitle(Messages.get("app.quit"));
+        alert.setContentText(Messages.get("app.quit.confirm"));
+
+        alert.showAndWait().ifPresent(answer -> {
+            if (answer == ButtonType.OK) {
+                Platform.exit();
+            }
+        });
     }
 }
