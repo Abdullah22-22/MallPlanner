@@ -27,6 +27,7 @@ public class FxApp extends Application {
                 FxApp.class.getResource("/styles.css").toExternalForm());
 
         root.setTop(new HeaderBar());
+        root.setLeft(new StepSidebar());
         stage.setTitle("MallPlanner");
         stage.setScene(scene);
         stage.show();

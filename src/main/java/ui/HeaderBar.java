@@ -54,6 +54,7 @@ public class HeaderBar extends HBox {
     private void switchLanguage(String code) {
         Messages.setLanguage(code);
         subtitleLabel.setText(Messages.get("app.subtitle"));
+        StepSidebar.setCurrent(StepSidebar.currentStep());
         FxApp.redrawCurrentScreen();
     }
 }

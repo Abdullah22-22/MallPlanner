@@ -27,6 +27,7 @@ public class ReportView extends VBox {
     public ReportView() {
         setSpacing(20);
         setPadding(new Insets(28));
+        StepSidebar.setCurrent(StepSidebar.REPORT);
 
         List<FloorProfit> profits = loadReport();
 

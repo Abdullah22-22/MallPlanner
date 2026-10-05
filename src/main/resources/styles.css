@@ -106,3 +106,58 @@
 .default-color0.chart-bar {
     -fx-bar-fill: #1F5F8B;
 }
+
+
+.sidebar {
+    -fx-background-color: #ECE8E0;
+    -fx-border-color: transparent #E2DED6 transparent transparent;
+    -fx-border-width: 0 1 0 0;
+}
+
+.sidebar-heading {
+    -fx-font-size: 11px;
+    -fx-text-fill: #8A8578;
+    -fx-padding: 0 0 12 14;
+}
+
+.step-row {
+    -fx-background-radius: 8;
+}
+
+.step-row-active {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #1F5F8B;
+    -fx-border-width: 0 0 0 3;
+    -fx-border-radius: 8;
+}
+
+.step-badge {
+    -fx-background-color: #DED9CF;
+    -fx-background-radius: 14;
+    -fx-text-fill: #6B6559;
+    -fx-font-size: 12px;
+}
+
+.step-badge-done {
+    -fx-background-color: #2E7D5B;
+    -fx-text-fill: white;
+}
+
+.step-badge-active {
+    -fx-background-color: #1F5F8B;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.step-name {
+    -fx-text-fill: #6B6559;
+}
+
+.step-name-active {
+    -fx-text-fill: #1E2126;
+    -fx-font-weight: bold;
+}
+
+.step-name-done {
+    -fx-text-fill: #3A3630;
+}
