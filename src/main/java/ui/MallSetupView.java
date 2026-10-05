@@ -97,7 +97,7 @@ public class MallSetupView extends VBox {
 
             AppState.mallId = mallId;
             AppState.floorCount = floors;
-            FxApp.switchScreen(new FloorSetupView(mallId, 1));
+            FxApp.switchScreen(() -> new FloorSetupView(mallId, 1));
 
         } catch (NumberFormatException exception) {
             FxApp.showError("error.not.a.number");

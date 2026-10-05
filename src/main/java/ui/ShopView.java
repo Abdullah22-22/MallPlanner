@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import model.Shop;
 
 import javafx.util.StringConverter;
+import javafx.application.Platform;
 import java.util.List;
 
 public class ShopView extends VBox {
@@ -34,7 +35,8 @@ public class ShopView extends VBox {
             AppState.currentFloor = SampleData.floor();
         }
 
-        getChildren().addAll(buildForm(), buildTable(), buildCapacityBar());
+        getChildren().addAll(buildForm(), buildTable(), buildCapacityBar(),
+                buildButtons());
     }
 
     // ---------- the add form ----------
@@ -200,7 +202,7 @@ public class ShopView extends VBox {
                 double newArea = Double.parseDouble(answer.trim());
 
                 controller.editShop(AppState.currentFloor, shop, newArea);
-                FxApp.switchScreen(new ShopView());
+                FxApp.switchScreen(ShopView::new);
 
             } catch (NumberFormatException e) {
                 FxApp.showError("error.not.a.number");
@@ -220,7 +222,7 @@ public class ShopView extends VBox {
     private void deleteShop(Shop shop) {
         try {
             controller.deleteShop(AppState.currentFloor, shop);
-            FxApp.switchScreen(new ShopView());
+            FxApp.switchScreen(ShopView::new);
 
         } catch (InvalidInputException e) {
             FxApp.showError(e.getMessage());
@@ -236,5 +238,46 @@ public class ShopView extends VBox {
         } catch (Exception e) {
             return SampleData.shops();   // no database yet
         }
+    }
+
+    // ---------- the buttons at the bottom ----------
+
+    private HBox buildButtons() {
+        Button suggestions = new Button(Messages.get("shop.see.suggestions"));
+        suggestions.setOnAction(e -> FxApp.switchScreen(SuggestionView::new));
+
+        HBox box = new HBox(12, suggestions);
+
+        // Only while there is a floor left to set up
+        int next = AppState.currentFloor.getFloorNumber() + 1;
+        if (next <= AppState.floorCount) {
+            Button nextFloor = new Button(Messages.get("shop.next.floor", next));
+            nextFloor.setOnAction(e -> FxApp.switchScreen(
+                    () -> new FloorSetupView(AppState.mallId, next)));
+            box.getChildren().add(nextFloor);
+        }
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        Button quit = new Button(Messages.get("app.quit"));
+        quit.getStyleClass().add("lang-button");
+        quit.setOnAction(e -> confirmQuit());
+
+        box.getChildren().addAll(spacer, quit);
+        return box;
+    }
+
+    private void confirmQuit() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setTitle(Messages.get("app.quit"));
+        alert.setContentText(Messages.get("app.quit.confirm"));
+
+        alert.showAndWait().ifPresent(answer -> {
+            if (answer == ButtonType.OK) {
+                Platform.exit();
+            }
+        });
     }
 }
