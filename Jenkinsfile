@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'abdullah22hel/mallplanner'
+        DOCKER_HOST  = 'tcp://localhost:2375'
     }
 
     stages {
