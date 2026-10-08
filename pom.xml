@@ -37,6 +37,28 @@
             <version>21.0.2</version>
         </dependency>
 
+        <!-- Linux natives, so the jar built on Windows also runs in the container -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>21.0.2</version>
+            <classifier>linux</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>21.0.2</version>
+            <classifier>linux</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>21.0.2</version>
+            <classifier>linux</classifier>
+        </dependency>
+
     </dependencies>
 
     <build>
