@@ -7,30 +7,31 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('Build') {
             steps {
                 bat 'mvn -B clean compile'
             }
         }
 
-        stage('Unit Tests') {
+        stage('Test') {
             steps {
                 bat 'mvn -B test -Dtest=!*DAOTest -DfailIfNoSpecifiedTests=false'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
             }
         }
 
         stage('Code Coverage') {
+            steps {
+                bat 'mvn -B jacoco:report'
+            }
+        }
+
+        stage('Publish Test Results') {
+            steps {
+                junit 'target/surefire-reports/*.xml'
+            }
+        }
+
+        stage('Publish Coverage Report') {
             steps {
                 recordCoverage(
                     tools: [[parser: 'JACOCO', pattern: 'target/site/jacoco/jacoco.xml']]
@@ -38,19 +39,13 @@ pipeline {
             }
         }
 
-        stage('Package') {
-            steps {
-                bat 'mvn -B package -DskipTests'
-            }
-        }
-
-        stage('Docker Build') {
+        stage('Build Docker Image') {
             steps {
                 bat "docker build -t %DOCKER_IMAGE%:%BUILD_NUMBER% -t %DOCKER_IMAGE%:latest ."
             }
         }
 
-        stage('Docker Push') {
+        stage('Push to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(
                     credentialsId: 'dockerhub-credentials',
@@ -60,6 +55,7 @@ pipeline {
                     bat 'echo %DOCKER_PASS%| docker login -u %DOCKER_USER% --password-stdin'
                     bat "docker push %DOCKER_IMAGE%:%BUILD_NUMBER%"
                     bat "docker push %DOCKER_IMAGE%:latest"
+                    bat 'docker logout'
                 }
             }
         }
@@ -71,9 +67,6 @@ pipeline {
         }
         failure {
             echo 'Build failed.'
-        }
-        always {
-            bat 'docker logout'
         }
     }
 }
