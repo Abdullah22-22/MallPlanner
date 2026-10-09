@@ -1,6 +1,20 @@
-# MallPlanner — database
+# MallPlanner — design
+
+The diagrams behind the app: what the planner does with it, and how the data is stored.
 
 Four tables. One mall has many floors. Each floor has services and shops.
+
+---
+
+## Use case diagram
+
+What the planner can do with the app.
+
+![Use case diagram](images/ULM.png)
+
+One actor: the **Planner**. They enter the building information, define how much of each floor goes to services, and manage the shops. Managing shops **includes** calculating the rentable area, because that number is recomputed on every add, edit and delete — it is never stored. When a shop does not fit, the insufficient-space warning **extends** that flow and tells the planner how many square metres short they are.
+
+The rest — the suggestions, the floor report, comparing floors and switching language — all read the same four tables and write nothing new to them.
 
 ---
 
@@ -32,7 +46,7 @@ The same model as tables, with the keys shown.
 
 **SHOP** — Shop_id, Floor_id (FK), name, area, category
 
-Anything ending in `_id` marked (FK) points at another table. Delete a mall and its floors go with it; delete a floor and its shops and service areas go too.
+Anything ending in `_id` marked (FK) points at another table. The foreign keys protect the order: a floor cannot exist without its mall, and a shop cannot exist without its floor. Delete from the bottom up — shops and service areas first, then the floor, then the mall.
 
 ---
 
@@ -54,7 +68,7 @@ If we stored it, we would have to update it on every add, edit and delete, and o
 ## Creating it
 
 ```
-mysql -u root -p < schema.sql
+mysql -u root -p < src/main/resources/db/schema.sql
 ```
 
 The tables are MariaDB. `schema.sql` creates all four with their foreign keys.
