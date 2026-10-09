@@ -28,6 +28,29 @@ It is a calculator, not an architect. It will not draw you a floor plan and it d
 
 ---
 
+## How it is put together
+
+Layered architecture. Five layers, and each one only talks to the one below it:
+
+```
+console / ui      the screens - console text or JavaFX windows
+      ↓
+controller        MallController, the one door into the logic
+      ↓
+service           the maths: AreaService, ShopService, ProfitService,
+                  SuggestionService, MallService, FloorService
+      ↓
+dao               the SQL: MallDAO, FloorDAO, ServiceAreaDAO, ShopDAO
+      ↓
+model             Mall, Floor, Shop, ServiceArea, Suggestion, FloorProfit
+```
+
+Nothing jumps a layer and nothing points upwards. A service class prints nothing and has no idea whether a console or a window called it.
+
+The class diagram and the use case diagram are here: [Diagrams/uml/uml.md](Diagrams/uml/uml.md)
+
+---
+
 ## The database
 
 Four tables: a mall, its floors, and on every floor the service areas and the shops.
@@ -126,6 +149,45 @@ The project sits at 42%, and that number deserves a sentence:
 | console | 0% |
 
 The thinking happens in the services, so that is where the tests went. The console and the JavaFX classes just sit there waiting for someone to type or click, and we have no way to test that automatically yet. We would take 95% where it matters over a prettier average.
+
+---
+
+## Functional testing
+
+The unit tests prove the maths. They do not prove that someone sitting in front of the app can actually build a mall, so we walked the whole thing by hand as well, on both user interfaces.
+
+### Does it do the job
+
+| # | What we did | What we expected | Result |
+|---|---|---|---|
+| 1 | Mall "Kamppi", 3000 m², 3 floors | Saved, and it moves on to floor 1 | Pass |
+| 2 | Floor 1000 m², corridors 15%, bathrooms 50 | 800 m² left for shops | Pass |
+| 3 | Added a shop of 200 m² | Free space drops to 600, table shows the shop | Pass |
+| 4 | Edited it from 200 to 300 | Free space drops to 500, no second row appears | Pass |
+| 5 | Deleted it | The 300 m² come straight back | Pass |
+| 6 | Opened the suggestions with 80 m² free | Three options, the 4 × 20 marked as the best earner | Pass |
+| 7 | Applied that option | Four shops appear, named Shop 1 to Shop 4 | Pass |
+| 8 | Opened the report | Every floor listed, best floor and occupancy on the cards | Pass |
+| 9 | Pressed Suomi halfway through | Every label switches, nothing typed in is lost | Pass |
+| 10 | Closed the app and opened it again | The mall, floors and shops are still in the database | Pass |
+
+### Does it stop you doing the wrong thing
+
+Every bad value raises an alert and nothing is written to the database. The service throws a message key, the screen turns it into a sentence in the language you picked.
+
+| # | What we did | What we expected | Result |
+|---|---|---|---|
+| 11 | Left the mall name empty | "The name cannot be empty" | Pass |
+| 12 | Typed `abc` where a number goes | "That is not a number", no crash | Pass |
+| 13 | Floor area bigger than the whole mall | "The floor does not fit in the mall" | Pass |
+| 14 | Services adding up to more than the floor | "The service areas do not fit", floor not saved | Pass |
+| 15 | Corridors set to 150% | "Give a percentage between 0 and 100" | Pass |
+| 16 | A negative service area | "The value cannot be negative" | Pass |
+| 17 | A shop of 500 m² into 300 m² of free space | Alert naming the shortfall: 200 m² short | Pass |
+| 18 | A shop with no name | "Give the shop a name" | Pass |
+| 19 | Stopped MariaDB, then pressed Save | "Could not save", the app stays open | Pass |
+
+Number 17 is the one we care about most. Telling someone that a shop does not fit is easy. Telling them it is 200 m² too big is the thing that makes the app worth using, and it is the same number whichever interface you are looking at.
 
 ---
 
